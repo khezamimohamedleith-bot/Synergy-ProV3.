@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#D4880A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="light-content">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="Horeca">
+<title>Synergy Horeca Equipment</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Serif+Display:ital@0;1&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Clean White Pro Palette */
+  --bg:#F0F2F8;
+  --bg2:#FFFFFF;
+  --bg3:#F5F6FA;
+  --card:#FFFFFF;
+  --card2:#F0F2F8;
+  --border:rgba(0,0,0,.07);
+  --border2:rgba(0,0,0,.12);
+  --shadow:0 2px 16px rgba(0,0,0,.08);
+  --shadow2:0 8px 32px rgba(0,0,0,.12);
+
+  /* Brand Gold */
+  --gold:#D4880A;
+  --gold2:#F5A623;
+  --gold3:rgba(212,136,10,.12);
+  --goldbg:#FFF8EC;
+
+  /* Status Colors */
+  --green:#16A34A;
+  --green2:rgba(22,163,74,.1);
+  --red:#DC2626;
+  --red2:rgba(220,38,38,.1);
+  --blue:#2563EB;
+  --blue2:rgba(37,99,235,.1);
+  --purple:#7C3AED;
+  --pur2:rgba(124,58,237,.1);
+  --teal:#0D9488;
+  --teal2:rgba(13,148,136,.1);
+  --orange:#EA580C;
+  --orange2:rgba(234,88,12,.1);
+
+  /* Text */
+  --text:#111827;
+  --text2:#6B7280;
+  --text3:#9CA3AF;
+  --text-inv:#FFFFFF;
+
+  /* Safe areas */
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+
+  /* Tab bar height */
+  --tabbar:60px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:'DM Sans',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* ═══ SPLASH ═══ */
+#splash{position:fixed;inset:0;background:linear-gradient(160deg,#1A1440 0%,#0D0A2E 100%);
+  z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .9s ease,transform .9s ease}
+#splash.out{opacity:0;transform:scale(1.05);pointer-events:none}
+.sp-icon{
+  width:120px;height:120px;border-radius:28px;
+  background:linear-gradient(145deg,#C8860A,#F5A623,#FFD166);
+  display:flex;align-items:center;justify-content:center;font-size:58px;
+  box-shadow:0 0 80px rgba(245,166,35,.5),0 0 0 0 rgba(245,166,35,.4);
+  animation:spPulse 2s ease-in-out infinite;margin-bottom:28px;
+}
+@keyframes spPulse{0%,100%{box-shadow:0 0 60px rgba(245,166,35,.4),0 0 0 0 rgba(245,166,35,.2)}50%{box-shadow:0 0 120px rgba(255,209,102,.7),0 0 0 12px rgba(245,166,35,.0)}}
+.sp-title{font-family:'DM Serif Display',serif;font-size:28px;color:#FFF;text-align:center;letter-spacing:.5px;line-height:1.2}
+.sp-sub{font-size:12px;color:rgba(245,166,35,.7);margin-top:6px;text-align:center;font-weight:500;letter-spacing:1px}
+.sp-loader{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin:38px 0 0;overflow:hidden}
+.sp-loader-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#C8860A,#F5A623,#FFD166);animation:spLoad 5.2s ease forwards}
+@keyframes spLoad{0%{width:0%}100%{width:100%}}
+.sp-bottom{position:absolute;bottom:calc(32px + var(--safe-b));text-align:center}
+.sp-company{font-size:12px;color:rgba(255,255,255,.3);letter-spacing:2px;font-weight:500}
+
+/* ═══ MAIN APP ═══ */
+#main{display:none;position:fixed;inset:0;overflow:hidden}
+#main.fadein{animation:mainIn .6s ease forwards}
+@keyframes mainIn{from{opacity:0}to{opacity:1}}
+
+/* ═══ HOME SCREEN ═══ */
+#home-scr{position:absolute;inset:0;bottom:var(--tabbar);overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.home-header{
+  background:var(--bg2);
+  padding:calc(var(--safe-t)+16px) 18px 16px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+}
+.home-hrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.home-brand{font-family:'DM Serif Display',serif;font-size:17px;color:var(--gold);font-style:italic}
+.home-time{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+.home-date{font-size:11px;color:var(--text3);font-weight:500}
+.home-prayer-badge{background:var(--goldbg);border:1px solid var(--gold3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--gold);display:inline-flex;align-items:center;gap:5px}
+
+/* HOME CONTENT */
+.home-content{padding:16px 16px calc(20px + var(--safe-b))}
+.section-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin:18px 0 10px;padding:0}
+.section-title:first-child{margin-top:0}
+
+/* KPI ROW */
+.kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.kpi-card{background:var(--card);border-radius:16px;padding:14px 12px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.kpi-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.kpi-val{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1}
+.kpi-lbl{font-size:10px;color:var(--text3);font-weight:600;margin-top:3px}
+
+/* APP GRID — iOS style */
+.app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.app-tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s;border-radius:16px}
+.app-tile:active{transform:scale(.88);background:rgba(0,0,0,.04)}
+.app-icon{width:60px;height:60px;border-radius:15px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.app-icon svg{width:32px;height:32px}
+.app-lbl{font-size:10px;font-weight:600;color:var(--text);text-align:center;line-height:1.2;max-width:62px}
+.app-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:10px;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--bg)}
+
+/* Folders */
+.folder-icon{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;padding:8px;background:linear-gradient(145deg,#C8D4E8,#A8BACE);border-radius:15px}
+.folder-mini{border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* Alert banner */
+.alert-banner{background:linear-gradient(135deg,var(--goldbg),#FFF3D4);border:1px solid rgba(212,136,10,.2);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:0;cursor:pointer}
+.alert-banner-ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(145deg,#D4880A,#F5A623);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.alert-banner-ico svg{width:20px;height:20px}
+.alert-txt{flex:1;font-size:12px;font-weight:600;color:var(--gold);line-height:1.4}
+.alert-arr{color:var(--gold2);font-size:18px}
+
+/* ═══ TAB BAR ═══ */
+#tabbar{
+  position:fixed;bottom:0;left:0;right:0;
+  height:calc(var(--tabbar) + var(--safe-b));
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:flex-start;padding-top:8px;
+  z-index:300;
+}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 2px;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.tab-item:active .tab-icon-wrap{transform:scale(.88)}
+.tab-icon-wrap{width:40px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:all .2s;position:relative}
+.tab-icon-wrap svg{width:22px;height:22px;transition:all .2s}
+.tab-item.active .tab-icon-wrap{background:var(--gold3)}
+.tab-item.active .tab-icon-wrap svg{stroke:var(--gold)}
+.tab-item:not(.active) .tab-icon-wrap svg{stroke:var(--text3)}
+.tab-lbl{font-size:10px;font-weight:600;transition:color .2s}
+.tab-item.active .tab-lbl{color:var(--gold)}
+.tab-item:not(.active) .tab-lbl{color:var(--text3)}
+.tab-badge{position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;font-size:8px;font-weight:700;border-radius:8px;min-width:14px;height:14px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--bg2)}
+
+/* ═══ SECTION PANELS ═══ */
+.panel{position:fixed;inset:0;bottom:0;background:var(--bg);z-index:500;display:none;flex-direction:column;overflow:hidden}
+.panel.on{display:flex;animation:panelIn .25s cubic-bezier(.32,0,.67,0)}
+@keyframes panelIn{from{opacity:.4;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+
+/* Panel top bar */
+.panel-top{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  height:calc(var(--safe-t) + 56px);
+  display:flex;align-items:flex-end;padding:0 16px 12px;gap:12px;flex-shrink:0;
+}
+.panel-back{
+  width:36px;height:36px;border-radius:50%;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s;
+}
+.panel-back:active{background:var(--border2)}
+.panel-back svg{width:20px;height:20px;stroke:var(--text2)}
+.panel-ttl{font-size:17px;font-weight:700;color:var(--text);flex:1;letter-spacing:-0.3px}
+.panel-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* ═══ MORE PANEL (grid de toutes les apps) ═══ */
+#more-scr{position:absolute;inset:0;bottom:var(--tabbar);overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;background:var(--bg)}
+.more-header{background:var(--bg2);padding:calc(var(--safe-t)+16px) 18px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.more-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);margin-bottom:4px}
+.more-sub{font-size:12px;color:var(--text3)}
+.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:16px}
+
+/* ═══ GESTION PANEL (tab-based) ═══ */
+#gest-scr{position:absolute;inset:0;bottom:var(--tabbar);display:none;background:var(--bg);flex-direction:column;overflow:hidden}
+#gest-scr .gest-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* ═══ SHARED COMPONENTS ═══ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.btn:active{transform:scale(.95)}
+.btn-gold{background:linear-gradient(145deg,#D4880A,#F5A623);color:#fff;box-shadow:0 4px 14px rgba(212,136,10,.3)}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 4px 14px rgba(22,163,74,.25)}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 4px 14px rgba(220,38,38,.25)}
+.btn-ghost{background:var(--card);color:var(--text2);border:1px solid var(--border);box-shadow:var(--shadow)}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border2)}
+.btn-full{width:100%}
+.btn-sm{padding:7px 14px;font-size:12px;border-radius:10px}
+.btn-lg{padding:14px 20px;font-size:15px;border-radius:14px}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
+.field input,.field select,.field textarea{width:100%;padding:12px 14px;background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold2);background:var(--bg2);box-shadow:0 0 0 3px var(--gold3)}
+.field textarea{resize:none;min-height:80px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+.card-hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-bd{padding:14px 16px}
+.card-t{font-size:14px;font-weight:700;color:var(--text)}
+
+/* KPI Row in panels */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px}
+.kpi-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 10px;text-align:center;box-shadow:var(--shadow)}
+.kpi-box-val{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.kpi-box-lbl{font-size:9px;color:var(--text3);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+/* Overlays */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.overlay.on{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.sheet{background:var(--bg2);border-radius:24px 24px 0 0;width:100%;max-height:92vh;overflow-y:auto;padding-bottom:calc(16px + var(--safe-b));box-shadow:0 -8px 40px rgba(0,0,0,.15)}
+@keyframes sheetUp{from{transform:translateY(60px);opacity:.5}to{transform:translateY(0);opacity:1}}
+.sheet{animation:sheetUp .26s cubic-bezier(.32,0,.67,0)}
+.sh-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:12px auto 0}
+.sh-ttl{padding:14px 20px 12px;border-bottom:1px solid var(--border);font-size:17px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between}
+.sh-x{color:var(--text3);cursor:pointer;width:28px;height:28px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s}
+.sh-x:active{background:var(--red2);color:var(--red)}
+.sh-body{padding:18px 20px}
+
+/* Dialog */
+.dialog{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.dialog.on{display:flex;animation:fadeIn .2s}
+.dlg{background:var(--card);border-radius:22px;padding:28px 22px 22px;width:100%;max-width:300px;animation:popIn .22s cubic-bezier(.34,1.56,.64,1);box-shadow:0 24px 60px rgba(0,0,0,.25)}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.dlg-ico-wrap{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.dlg-t{font-size:18px;font-weight:800;color:var(--text);text-align:center;margin-bottom:7px;letter-spacing:-0.3px}
+.dlg-s{font-size:13px;color:var(--text2);text-align:center;line-height:1.6;margin-bottom:22px}
+.dlg-btns{display:flex;gap:10px}
+
+/* Toasts */
+#toasts{position:fixed;top:calc(var(--safe-t)+70px);left:50%;transform:translateX(-50%);z-index:2000;display:flex;flex-direction:column;gap:8px;pointer-events:none;min-width:200px;max-width:88vw}
+.toast{background:var(--text);color:#fff;padding:11px 18px;border-radius:14px;font-size:12px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.3);text-align:center;animation:toastIn .28s ease;position:relative;overflow:hidden}
+.toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold2)}
+.toast.g::before{background:var(--green)}
+.toast.r::before{background:var(--red)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-8px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Link items */
+.link-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;text-decoration:none;box-shadow:var(--shadow)}
+.link-item:active{transform:scale(.97);background:var(--bg3)}
+.link-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.link-icon-wrap svg{width:24px;height:24px}
+.link-info{flex:1;min-width:0}
+.link-name{font-size:14px;font-weight:700;color:var(--text)}
+.link-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.link-arr{color:var(--text3)}
+.link-arr svg{width:16px;height:16px;stroke:var(--text3)}
+
+/* Stock cards */
+.stock-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:all .15s}
+.stock-card:active{transform:scale(.98)}
+.stock-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.stock-img{width:54px;height:54px;border-radius:12px;object-fit:cover;flex-shrink:0;background:var(--bg3)}
+.stock-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.35;flex:1}
+.stock-cat{font-size:10px;color:var(--text3);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+.b-pret{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.2)}
+.b-urg{background:rgba(212,136,10,.1);color:var(--gold);border:1px solid rgba(212,136,10,.2)}
+.b-pri{background:var(--blue2);color:var(--blue);border:1px solid rgba(37,99,235,.2)}
+.b-enc{background:rgba(156,163,175,.1);color:var(--text2);border:1px solid var(--border)}
+.b-per{background:var(--red2);color:var(--red);border:1px solid rgba(220,38,38,.2)}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.stock-row{display:flex;align-items:center;justify-content:space-between}
+.stock-price{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.stock-cost{font-size:11px;color:var(--text3);font-weight:500}
+.prog-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-top:8px}
+.prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold2),#FFD166)}
+
+/* Note cards */
+.note-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:9px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow);position:relative}
+.note-card:active{transform:scale(.98)}
+.note-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px}
+.note-preview{font-size:12px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note-date{font-size:10px;color:var(--text3);margin-top:8px;font-weight:600}
+
+/* Prayer styles */
+.prayer-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.prayer-row:last-child{border-bottom:none}
+.prayer-name{font-size:14px;font-weight:700;color:var(--text)}
+.prayer-name-ar{font-family:'Amiri',serif;font-size:13px;color:var(--text3);margin-top:2px}
+.prayer-t{font-size:18px;font-weight:800;letter-spacing:-0.5px}
+
+/* Calculator */
+.calc-display{background:var(--bg3);border-radius:18px;padding:24px 20px;margin:16px;text-align:right;border:1px solid var(--border)}
+.calc-expr{font-size:14px;color:var(--text3);min-height:20px;font-weight:500}
+.calc-val{font-size:42px;font-weight:800;color:var(--text);word-break:break-all;line-height:1.1;letter-spacing:-1px}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px}
+.calc-btn{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 6px;font-size:18px;font-weight:700;text-align:center;cursor:pointer;color:var(--text);transition:all .15s;box-shadow:var(--shadow)}
+.calc-btn:active{transform:scale(.92);background:var(--bg3)}
+.calc-btn.op{background:var(--gold3);color:var(--gold);border-color:rgba(212,136,10,.2)}
+.calc-btn.fn{background:var(--bg3);color:var(--text2)}
+.calc-btn.eq{background:linear-gradient(145deg,var(--gold),var(--gold2));color:#fff;border:none;box-shadow:0 4px 14px rgba(212,136,10,.4)}
+.calc-btn.zero{grid-column:span 2;text-align:left;padding-left:26px}
+
+/* Doc list */
+.doc-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:9px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.doc-item:active{transform:scale(.98)}
+
+/* Contacts */
+.contact-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s}
+.contact-row:active{background:var(--bg3)}
+.avatar{width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0}
+
+/* Share row */
+.share-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:14px}
+.share-btn{padding:12px;border-radius:14px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;border:none;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.share-btn:active{transform:scale(.94)}
+
+/* Tabs inside panels */
+.inner-tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.inner-tab{flex:1;padding:12px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;color:var(--text3);border-bottom:2.5px solid transparent;transition:all .2s}
+.inner-tab.act{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* Radio */
+.radio-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:9px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.radio-item:active{transform:scale(.97)}
+.radio-playing{background:var(--goldbg);border-color:rgba(212,136,10,.25)}
+
+/* Swipeable panel groups */
+.swipe-group{position:relative;width:100%;height:100%;overflow:hidden}
+
+/* Settings rows */
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--card)}
+.settings-label{font-size:14px;font-weight:600;color:var(--text)}
+.settings-val{font-size:13px;color:var(--text3)}
+.toggle{width:48px;height:28px;background:var(--border2);border-radius:14px;cursor:pointer;transition:background .2s;position:relative;flex-shrink:0}
+.toggle.on{background:var(--green)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:#fff;transition:transform .2s;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.toggle.on::after{transform:translateX(20px)}
+
+/* Catalogue */
+#cat-book{position:fixed;inset:0;z-index:800;display:none;background:#000;flex-direction:column}
+#cat-book.on{display:flex}
+#cat-slides{flex:1;overflow:hidden;position:relative}
+.cat-slide{position:absolute;inset:0;display:none;flex-direction:column}
+.cat-slide.on{display:flex}
+.cat-img{flex:1;object-fit:cover;width:100%}
+.cat-info{background:var(--bg2);padding:16px 18px calc(16px + var(--safe-b));border-top:1px solid var(--border)}
+.cat-item-name{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-0.3px;margin-bottom:6px}
+.cat-item-price{font-size:24px;font-weight:800;color:var(--gold);letter-spacing:-1px}
+.cat-item-cost{font-size:12px;color:var(--text3);margin-top:2px}
+.cat-close-btn{position:absolute;top:calc(var(--safe-t)+14px);right:16px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px)}
+.cat-close-btn svg{width:20px;height:20px;stroke:#fff}
+.cat-nav{position:absolute;top:50%;transform:translateY(-50%);display:flex;gap:8px;width:100%;justify-content:space-between;padding:0 14px;pointer-events:none}
+.cat-nav-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:all;transition:all .15s;border:1px solid rgba(255,255,255,.3)}
+.cat-nav-btn:active{background:rgba(255,255,255,.35)}
+.cat-nav-btn svg{width:22px;height:22px;stroke:#fff}
+.cat-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.cat-dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);transition:all .25s}
+.cat-dot.on{width:20px;background:#fff}
+
+/* News card */
+.news-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:all .15s}
+.news-card:active{transform:scale(.98)}
+.news-img{width:100%;height:140px;object-fit:cover;background:var(--bg3)}
+.news-body{padding:13px}
+.news-source{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.news-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.4}
+.news-time{font-size:10px;color:var(--text3);margin-top:6px;font-weight:500}
+
+/* Photo grid */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.photo-thumb{aspect-ratio:1;object-fit:cover;background:var(--bg3);border-radius:0;cursor:pointer;transition:opacity .15s}
+.photo-thumb:active{opacity:.8}
+
+/* Search bar */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1.5px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:14px}
+.search-bar svg{width:18px;height:18px;stroke:var(--text3);flex-shrink:0}
+.search-bar input{background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);flex:1}
+.search-bar input::placeholder{color:var(--text3)}
+
+/* Map links */
+.map-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow)}
+.map-preview{height:140px;background:linear-gradient(135deg,#E8F0FE,#C8D8F0);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden}
+
+/* Pub templates */
+.tmpl-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;transition:all .15s;margin:0 6px 6px 0}
+.tmpl-chip:active{background:var(--goldbg);border-color:var(--gold3)}
+
+</style>
+</head>
+<body>
+
+<!-- ═══ ÉCRAN INSTALLATION (affiché EN PREMIER si pas installé) ═══ -->
+<div id="install-screen" style="display:none;position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(160deg,#1A1440 0%,#0D0A2E 60%,#1A0D00 100%);
+  flex-direction:column;align-items:center;justify-content:center;padding:32px 24px">
+
+  <!-- Icône app -->
+  <div style="width:110px;height:110px;border-radius:26px;
+    background:linear-gradient(145deg,#C8860A,#F5A623,#FFD166);
+    display:flex;align-items:center;justify-content:center;font-size:54px;
+    box-shadow:0 0 80px rgba(245,166,35,.5),0 0 0 8px rgba(245,166,35,.15);
+    margin-bottom:24px;animation:spPulse 2s ease-in-out infinite">
+    🍽️
+  </div>
+
+  <div style="font-family:'DM Serif Display',serif;font-size:28px;color:#fff;
+    text-align:center;letter-spacing:.5px;margin-bottom:6px">
+    Synergy Horeca
+  </div>
+  <div style="font-size:12px;color:rgba(245,166,35,.7);letter-spacing:2px;
+    font-weight:600;margin-bottom:36px;text-align:center">
+    EQUIPMENT · TUNISIE
+  </div>
+
+  <!-- BOUTON INSTALLER ANDROID/Chrome -->
+  <div id="btn-install-android" style="display:none;width:100%;max-width:320px">
+    <button onclick="doInstall()" style="
+      width:100%;background:linear-gradient(135deg,#D4880A,#F5A623);
+      color:#fff;border:none;border-radius:18px;padding:18px 24px;
+      font-family:'DM Sans',sans-serif;font-size:17px;font-weight:800;
+      cursor:pointer;letter-spacing:-.3px;
+      box-shadow:0 8px 32px rgba(212,136,10,.5);
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      transition:transform .15s">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+        <path d="M12 16V4M8 8l4-4 4 4"/>
+        <rect x="3" y="18" width="18" height="4" rx="2"/>
+      </svg>
+      Installer l'application
+    </button>
+    <div style="text-align:center;margin-top:12px">
+      <span onclick="skipInstall()" style="font-size:13px;color:rgba(255,255,255,.4);
+        cursor:pointer;text-decoration:underline;text-underline-offset:3px">
+        Continuer sans installer
+      </span>
+    </div>
+  </div>
+
+  <!-- GUIDE iOS Safari -->
+  <div id="guide-ios" style="display:none;width:100%;max-width:320px">
+    <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;padding:20px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:700;color:rgba(245,166,35,.9);
+        text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;text-align:center">
+        📲 Installer sur iPhone
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,166,35,.15);
+            display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">1️⃣</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.85);line-height:1.4">
+            Appuyez sur <strong style="color:#FFD166">Partager</strong>
+            <span style="font-size:18px;vertical-align:middle"> ⎙ </span>
+            en bas de Safari
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,166,35,.15);
+            display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">2️⃣</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.85);line-height:1.4">
+            Faites défiler et choisissez<br>
+            <strong style="color:#FFD166">"Sur l'écran d'accueil"</strong>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,166,35,.15);
+            display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">3️⃣</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.85);line-height:1.4">
+            Appuyez sur <strong style="color:#FFD166">Ajouter</strong> en haut à droite
+          </div>
+        </div>
+      </div>
+    </div>
+    <button onclick="skipInstall()" style="
+      width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+      color:#fff;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">
+      Ouvrir sans installer →
+    </button>
+  </div>
+
+  <!-- GUIDE iOS Chrome (pas Safari) -->
+  <div id="guide-ios-chrome" style="display:none;width:100%;max-width:320px">
+    <div style="background:rgba(255,100,0,.1);border:1px solid rgba(255,100,0,.25);
+      border-radius:18px;padding:18px;margin-bottom:16px;text-align:center">
+      <div style="font-size:32px;margin-bottom:10px">⚠️</div>
+      <div style="font-size:14px;font-weight:700;color:#FFD166;margin-bottom:8px">
+        Ouvrez dans Safari
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.6">
+        Sur iPhone, l'installation est possible<br>
+        <strong>uniquement depuis Safari</strong>.<br><br>
+        Copiez le lien et ouvrez-le dans Safari.
+      </div>
+    </div>
+    <button onclick="skipInstall()" style="
+      width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+      color:#fff;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer">
+      Continuer quand même →
+    </button>
+  </div>
+
+  <!-- Déjà installé — skip automatique -->
+  <div id="guide-installed" style="display:none;text-align:center">
+    <div style="font-size:48px;margin-bottom:14px">✅</div>
+    <div style="font-size:16px;color:#fff;font-weight:700">Déjà installée !</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:6px">Chargement en cours…</div>
+  </div>
+
+</div>
+
+<!-- ═══ SPLASH ═══ -->
+<div id="splash">
+  <div class="sp-icon">🍽️</div>
+  <div class="sp-title">Synergy Horeca</div>
+  <div class="sp-sub">EQUIPMENT · TUNISIE</div>
+  <div class="sp-loader"><div class="sp-loader-fill"></div></div>
+  <div class="sp-bottom">
+    <div class="sp-company">POWERED BY SYNERGY PRO</div>
+  </div>
+</div>
+
+<!-- ═══ MAIN APP ═══ -->
+<div id="main">
+
+  <!-- HOME SCREEN -->
+  <div id="home-scr">
+    <div class="home-header">
+      <div class="home-hrow">
+        <div class="home-brand">Synergy Horeca</div>
+        <div class="home-time" id="hh-time">--:--</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+        <div class="home-date" id="hh-date">—</div>
+        <div class="home-prayer-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l3 3"/></svg>
+          <span id="hh-next-prayer">Prière —</span>
+        </div>
+      </div>
+    </div>
+    <div class="home-content">
+
+      <!-- ALERT -->
+      <div class="alert-banner" onclick="switchTab('gest')" style="margin-bottom:14px">
+        <div class="alert-banner-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="alert-txt" id="home-alert-txt">Chargement du stock…</div>
+        <div class="alert-arr">›</div>
+      </div>
+
+      <!-- KPI STRIP -->
+      <div class="kpi-strip" id="home-kpis">
+        <div class="kpi-card">
+          <div class="kpi-ico" style="background:var(--goldbg)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </div>
+          <div class="kpi-val" id="kpi-stock">—</div>
+          <div class="kpi-lbl">Articles</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-ico" style="background:var(--green2)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="kpi-val" id="kpi-ca">—</div>
+          <div class="kpi-lbl">CA Total</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-ico" style="background:var(--blue2)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="kpi-val" id="kpi-clients">—</div>
+          <div class="kpi-lbl">Clients</div>
+        </div>
+      </div>
+
+      <!-- QUICK ACCESS APPS -->
+      <div class="section-title">Accès rapide</div>
+      <div class="app-grid" id="quick-grid"></div>
+
+      <div class="section-title">Applications</div>
+      <div class="app-grid" id="all-grid"></div>
+
+    </div>
+  </div>
+
+  <!-- GESTION SCREEN (tab 2) -->
+  <div id="gest-scr" style="display:none;flex-direction:column">
+    <div class="home-header" style="flex-shrink:0">
+      <div class="home-hrow">
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--text)">Gestion</div>
+        <button class="btn btn-gold btn-sm" onclick="openAddStockSheet()">+ Article</button>
+      </div>
+    </div>
+    <div class="kpi-row" id="gest-kpis" style="flex-shrink:0"></div>
+    <div class="inner-tabs" style="flex-shrink:0">
+      <div class="inner-tab act" id="gt-stock" onclick="gTab('stock')">Stock</div>
+      <div class="inner-tab" id="gt-ventes" onclick="gTab('ventes')">Ventes</div>
+      <div class="inner-tab" id="gt-finance" onclick="gTab('finance')">Finance</div>
+      <div class="inner-tab" id="gt-clients" onclick="gTab('clients')">Contacts</div>
+    </div>
+    <div id="gest-content" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;padding-bottom:calc(80px + var(--safe-b))"></div>
+  </div>
+
+  <!-- MORE SCREEN (tab 5) -->
+  <div id="more-scr">
+    <div class="more-header">
+      <div class="more-title">Applications</div>
+      <div class="more-sub">Tous les outils Synergy</div>
+    </div>
+    <div class="more-grid" id="more-grid"></div>
+  </div>
+
+  <!-- PANELS -->
+
+  <!-- 1. PRIÈRE -->
+  <div class="panel" id="p-1">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Horaires de Prière</div>
+    </div>
+    <div class="panel-body">
+      <div style="background:linear-gradient(160deg,#0D1B3E,#1A2F5A);padding:28px 24px;text-align:center;margin-bottom:0">
+        <div style="font-size:42px;margin-bottom:14px">🕌</div>
+        <div style="font-size:34px;font-weight:800;color:#FFD166;letter-spacing:-1px" id="pr-next-time">—</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:6px;font-weight:500" id="pr-next-label">Prochaine prière</div>
+        <div style="font-family:'Amiri',serif;font-size:20px;color:rgba(255,255,255,.4);margin-top:14px;direction:rtl">بسم الله الرحمن الرحيم</div>
+      </div>
+      <div style="background:var(--card);margin:0" id="prayer-list"></div>
+      <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+        <a href="https://www.islamway.net" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:rgba(13,148,136,.1)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>
+          <div class="link-info"><div class="link-name">Écouter le Coran</div><div class="link-sub">islamway.net</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>
+        <a href="https://www.seekersguidance.org" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:var(--goldbg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+          <div class="link-info"><div class="link-name">Cours islamiques</div><div class="link-sub">seekersguidance.org</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>
+      </div>
+      <div style="text-align:center;padding:16px 20px 32px;font-family:'Amiri',serif;font-size:18px;color:var(--text3);direction:rtl;line-height:1.8">
+        اللهم اجعلنا من المتقين وارزقنا الرزق الحلال الواسع
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. NOTES -->
+  <div class="panel" id="p-2">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Notes Rapides</div>
+      <button class="btn btn-gold btn-sm" onclick="openNewNote()">+ Note</button>
+    </div>
+    <div class="panel-body" style="padding:14px" id="notes-list"></div>
+  </div>
+
+  <!-- 3. PHOTO -->
+  <div class="panel" id="p-3">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Photo & Vidéo</div>
+    </div>
+    <div class="panel-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px">
+        <label for="cam-input" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s">
+          <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(145deg,#1C1C1E,#3A3A3C);display:flex;align-items:center;justify-content:center">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Caméra</div>
+        </label>
+        <input type="file" id="cam-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)">
+        <label for="gal-input" style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s">
+          <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(145deg,#FF6B6B,#FF8E53);display:flex;align-items:center;justify-content:center">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Galerie</div>
+        </label>
+        <input type="file" id="gal-input" accept="image/*,video/*" multiple style="display:none" onchange="handleGallery(this)">
+      </div>
+      <div style="padding:0 16px 16px">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Photos Sauvegardées</div>
+        <div id="photo-grid" class="photo-grid"></div>
+        <div id="photo-empty" style="text-align:center;padding:36px;color:var(--text3);font-size:13px">Aucune photo sauvegardée</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MESSAGERIE -->
+  <div class="panel" id="p-4">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Messagerie</div>
+    </div>
+    <div class="panel-body" style="padding:16px">
+      <!-- WhatsApp hero -->
+      <a href="https://wa.me/21620910909" target="_blank" style="background:linear-gradient(145deg,#25D366,#128C7E);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:14px;box-shadow:0 8px 24px rgba(37,211,102,.3)">
+        <div style="width:52px;height:52px;background:rgba(255,255,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:800;color:#fff">WhatsApp</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px">+216 20 910 909 · Principal</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Réseaux Sociaux</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        ${[
+          ['https://m.me','#1877F2','M 4 4 C 4 4 20 4 20 12 C 20 18 16 20 12 20 C 10 20 8 19 7 18 L 4 20 L 5 17 C 4 16 4 14 4 12 C 4 8 4 4 4 4 Z','Messenger','Messages Facebook'],
+          ['https://www.instagram.com/direct/inbox/','url(#ig-grad)','M 12 2 C 6.48 2 2 6.48 2 12 S 6.48 22 12 22 22 17.52 22 12 22 6.48 17.52 2 12 2 Z M 12 17 C 9.24 17 7 14.76 7 12 S 9.24 7 12 7 17 9.24 17 12 17 14.76 14.76 17 12 17 Z M 17.5 6.5 C 17.5 7.33 16.83 8 16 8 S 14.5 7.33 14.5 6.5 15.17 5 16 5 17.5 5.67 17.5 6.5 Z','Instagram','Messages directs'],
+          ['https://www.tiktok.com/messages','#010101','M 19.59 6.69 A 4.83 4.83 0 0 1 14.76 2 H 10.68 V 15.73 A 2.88 2.88 0 1 1 7.8 12.87 A 2.88 2.88 0 0 1 10.68 15.73 V 11.52 A 7 7 0 0 0 7.8 11 A 6.96 6.96 0 1 0 14.76 17.96 V 10.34 A 9.13 9.13 0 0 0 19.59 11.6 V 7.56 A 4.84 4.84 0 0 1 19.59 6.69 Z','TikTok','Messagerie TikTok'],
+          ['https://business.facebook.com/inbox','#0082FB','M 12 2 C 6.48 2 2 6.48 2 12 S 6.48 22 12 22 22 17.52 22 12 22 6.48 17.52 2 12 2 Z M 13 17 H 11 V 11 H 13 V 17 Z M 12 9.5 C 11.17 9.5 10.5 8.83 10.5 8 S 11.17 6.5 12 6.5 13.5 7.17 13.5 8 12.83 9.5 12 9.5 Z','Meta Business','FB + IG centralisés']
+        ].map(([u,c,p,n,s])=>`
+        <a href="${u}" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:${c}22">
+            <svg viewBox="0 0 24 24" fill="${c}" width="24" height="24"><path d="${p}"/></svg>
+          </div>
+          <div class="link-info"><div class="link-name">${n}</div><div class="link-sub">${s}</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>`).join('')}
+      </div>
+      <div style="background:var(--goldbg);border:1px solid rgba(212,136,10,.15);border-radius:14px;padding:14px;margin-top:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px">💡 Stratégie unifiée</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.7">WhatsApp Business = centre principal · Meta Suite = FB + IG · TikTok → bio avec lien WhatsApp</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. RECHERCHE MARKETPLACE -->
+  <div class="panel" id="p-5">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Recherche Marché</div>
+    </div>
+    <div class="panel-body" style="padding:16px">
+      <a href="https://www.facebook.com/marketplace" target="_blank" style="background:linear-gradient(145deg,#1877F2,#4267B2);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:14px;box-shadow:0 8px 24px rgba(24,119,242,.3)">
+        <div style="width:52px;height:52px;background:rgba(255,255,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:28px">🏪</div>
+        <div style="flex:1"><div style="font-size:16px;font-weight:800;color:#fff">Facebook Marketplace</div><div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:2px">Équipements CHR · Tunisie</div></div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        ${[['https://www.facebook.com/marketplace/tunis','#1877F2','📍','Tunis Marketplace','Annonces locales Tunis'],['https://www.jumia.com.tn','#F68B1E','🛒','Jumia Tunisie','E-commerce Tunisie'],['https://www.tayara.tn','#E21414','📱','Tayara.tn','Petites annonces TN'],['https://www.facebook.com/marketplace/search?query=frigo','#1877F2','❄️','Frigos & Vitrines','Nouvelles offres']].map(([u,c,i,n,s])=>`
+        <a href="${u}" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:${c}15;font-size:22px">${i}</div>
+          <div class="link-info"><div class="link-name">${n}</div><div class="link-sub">${s}</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. PUBLIER -->
+  <div class="panel" id="p-6">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Publier un Article</div>
+    </div>
+    <div class="panel-body" style="padding:16px">
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:16px">
+        <a href="https://www.facebook.com/marketplace/create" target="_blank" style="background:linear-gradient(145deg,#1877F2,#4267B2);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;text-decoration:none;box-shadow:0 6px 20px rgba(24,119,242,.3)">
+          <div style="width:44px;height:44px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px">🏪</div>
+          <div style="flex:1"><div style="font-size:15px;font-weight:800;color:#fff">Marketplace Facebook</div><div style="font-size:11px;color:rgba(255,255,255,.7)">Annonce + photos</div></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:#1877F215;font-size:22px">📝</div>
+          <div class="link-info"><div class="link-name">Publication Facebook</div><div class="link-sub">Mur ou groupe</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:#E1306C15;font-size:22px">📸</div>
+          <div class="link-info"><div class="link-name">Instagram</div><div class="link-sub">Post ou Story</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>
+        <a href="https://www.tiktok.com/upload" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:#01010115;font-size:22px">🎵</div>
+          <div class="link-info"><div class="link-name">TikTok</div><div class="link-sub">Vidéo courte</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Modèles d'annonces</div>
+      <div id="templates-list" style="display:flex;flex-wrap:wrap"></div>
+    </div>
+  </div>
+
+  <!-- 9. DEVIS & FACTURES -->
+  <div class="panel" id="p-9">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Devis & Factures</div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-ghost btn-sm" onclick="openNewDoc('devis')">Devis</button>
+        <button class="btn btn-gold btn-sm" onclick="openNewDoc('facture')">Facture</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="inner-tabs">
+        <div class="inner-tab act" id="dta-devis" onclick="docTab('devis')">📄 Devis</div>
+        <div class="inner-tab" id="dta-facture" onclick="docTab('facture')">🧾 Factures</div>
+      </div>
+      <div style="padding:14px;padding-bottom:calc(80px + var(--safe-b))" id="doc-list"></div>
+    </div>
+  </div>
+
+  <!-- 10. GOOGLE LENS -->
+  <div class="panel" id="p-10">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Google Lens</div>
+    </div>
+    <div class="panel-body" style="padding:16px">
+      <div style="background:linear-gradient(135deg,#4285F4,#34A853,#FBBC04,#EA4335);border-radius:20px;padding:28px;text-align:center;margin-bottom:14px">
+        <div style="font-size:52px;margin-bottom:14px">🔍</div>
+        <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:8px">Google Lens</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:18px;line-height:1.7">Identifiez des équipements, lisez des textes, trouvez des prix par reconnaissance d'image.</div>
+        <a href="https://lens.google.com" target="_blank" style="background:#fff;color:#4285F4;border-radius:12px;padding:12px 24px;font-weight:800;font-size:14px;display:inline-block;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.2)">Ouvrir Google Lens</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <a href="https://images.google.com" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:#4285F415;font-size:22px">🖼️</div>
+          <div class="link-info"><div class="link-name">Google Images</div><div class="link-sub">Recherche inversée</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. OUTILS -->
+  <div class="panel" id="p-11">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Outils Gratuits</div>
+    </div>
+    <div class="panel-body" style="padding:16px" id="tools-grid"></div>
+  </div>
+
+  <!-- 12. MAPS -->
+  <div class="panel" id="p-12">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Carte & Navigation</div>
+    </div>
+    <div class="panel-body" style="padding:16px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${[['https://maps.google.com','#4285F4','🗺️','Google Maps','Navigation & itinéraire'],['https://waze.com','#00CBFE','🚗','Waze','Trafic en temps réel'],['https://maps.google.com/maps/search/concessionnaire+équipement+horeca+Tunis','#34A853','🍴','Équipements CHR Tunis','Fournisseurs sur la carte']].map(([u,c,i,n,s])=>`
+        <a href="${u}" target="_blank" class="link-item">
+          <div class="link-icon-wrap" style="background:${c}15;font-size:22px">${i}</div>
+          <div class="link-info"><div class="link-name">${n}</div><div class="link-sub">${s}</div></div>
+          <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </a>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. CALCULATRICE -->
+  <div class="panel" id="p-13">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Calculatrice</div>
+    </div>
+    <div class="panel-body">
+      <div class="calc-display">
+        <div class="calc-expr" id="calc-expr"></div>
+        <div class="calc-val" id="calc-val">0</div>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-btn fn" onclick="calcFn('ac')">AC</div>
+        <div class="calc-btn fn" onclick="calcFn('+/-')">+/-</div>
+        <div class="calc-btn fn" onclick="calcFn('%')">%</div>
+        <div class="calc-btn op" onclick="calcFn('/')">÷</div>
+        <div class="calc-btn" onclick="calcFn('7')">7</div>
+        <div class="calc-btn" onclick="calcFn('8')">8</div>
+        <div class="calc-btn" onclick="calcFn('9')">9</div>
+        <div class="calc-btn op" onclick="calcFn('*')">×</div>
+        <div class="calc-btn" onclick="calcFn('4')">4</div>
+        <div class="calc-btn" onclick="calcFn('5')">5</div>
+        <div class="calc-btn" onclick="calcFn('6')">6</div>
+        <div class="calc-btn op" onclick="calcFn('-')">−</div>
+        <div class="calc-btn" onclick="calcFn('1')">1</div>
+        <div class="calc-btn" onclick="calcFn('2')">2</div>
+        <div class="calc-btn" onclick="calcFn('3')">3</div>
+        <div class="calc-btn op" onclick="calcFn('+')">+</div>
+        <div class="calc-btn zero" onclick="calcFn('0')">0</div>
+        <div class="calc-btn" onclick="calcFn('.')">.</div>
+        <div class="calc-btn eq" onclick="calcFn('=')">=</div>
+      </div>
+      <div style="padding:0 16px 16px">
+        <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Marge rapide</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div class="field" style="margin:0"><label>Coût DT</label><input id="mg-cout" type="number" placeholder="0" oninput="calcMarge()"></div>
+          <div class="field" style="margin:0"><label>Prix DT</label><input id="mg-prix" type="number" placeholder="0" oninput="calcMarge()"></div>
+          <div class="field" style="margin:0"><label>Marge</label><input id="mg-res" readonly style="background:var(--goldbg);border-color:var(--gold3);color:var(--gold);font-weight:700"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. ACTUALITÉS -->
+  <div class="panel" id="p-14">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Actualités</div>
+    </div>
+    <div class="panel-body" style="padding:14px" id="news-body"></div>
+  </div>
+
+  <!-- 15. RADIO -->
+  <div class="panel" id="p-15">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Radio</div>
+    </div>
+    <div class="panel-body" style="padding:16px" id="radio-list"></div>
+  </div>
+
+  <!-- 16. RÉPERTOIRE -->
+  <div class="panel" id="p-16">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Répertoire</div>
+      <button class="btn btn-gold btn-sm" onclick="openAddContact()">+ Contact</button>
+    </div>
+    <div class="panel-body">
+      <div class="inner-tabs">
+        <div class="inner-tab act" id="rt-all" onclick="repTab('all')">Tous</div>
+        <div class="inner-tab" id="rt-clients" onclick="repTab('clients')">Clients</div>
+        <div class="inner-tab" id="rt-fournisseurs" onclick="repTab('fournisseurs')">Fournisseurs</div>
+      </div>
+      <div id="rep-list" style="padding-bottom:calc(80px + var(--safe-b))"></div>
+    </div>
+  </div>
+
+  <!-- 17. CONFIG -->
+  <div class="panel" id="p-17">
+    <div class="panel-top">
+      <div class="panel-back" onclick="closePanel()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="panel-ttl">Configuration</div>
+    </div>
+    <div class="panel-body" id="config-body"></div>
+  </div>
+
+  <!-- CATALOGUE BOOK -->
+  <div id="cat-book">
+    <div id="cat-slides"></div>
+    <div class="cat-close-btn" onclick="closeCatalogue()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    <div class="cat-nav" id="cat-nav">
+      <div class="cat-nav-btn" onclick="catNav(-1)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="cat-nav-btn" onclick="catNav(1)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="cat-dots" id="cat-dots"></div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div id="tabbar">
+    <div class="tab-item active" id="tab-home" onclick="switchTab('home')">
+      <div class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="tab-lbl">Accueil</div>
+    </div>
+    <div class="tab-item" id="tab-gest" onclick="switchTab('gest')">
+      <div class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div class="tab-lbl">Gestion</div>
+    </div>
+    <div class="tab-item" id="tab-cat" onclick="openCatalogue()">
+      <div class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div class="tab-lbl">Catalogue</div>
+    </div>
+    <div class="tab-item" id="tab-docs" onclick="switchTab('docs')">
+      <div class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="tab-lbl">Devis</div>
+    </div>
+    <div class="tab-item" id="tab-more" onclick="switchTab('more')">
+      <div class="tab-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></svg>
+      </div>
+      <div class="tab-lbl">Plus</div>
+    </div>
+  </div>
+
+  <!-- SHEETS & DIALOGS -->
+
+  <!-- SHEET: ADD/EDIT STOCK -->
+  <div class="overlay" id="sh-stock">
+    <div class="sheet">
+      <div class="sh-handle"></div>
+      <div class="sh-ttl"><span id="sh-st-ttl">Nouvel Article</span><span class="sh-x" onclick="closeOverlays()">✕</span></div>
+      <div class="sh-body">
+        <input type="hidden" id="sf-id">
+        <div class="field"><label>Article *</label><input id="sf-art" placeholder="Description complète"></div>
+        <div class="g2">
+          <div class="field"><label>Catégorie</label><select id="sf-cat"><option>Réfrig. vertical vitré</option><option>Vitrine réfrig.</option><option>Vitrine glace</option><option>Congélateur horiz vitré</option><option>Congélateur vertical vitré</option><option>Four pizza</option><option>Four pâtisserie</option><option>Machine café</option><option>Comptoir sandwich</option><option>Pétrin</option><option>Friteuse</option><option>Grillade</option><option>Mobilier</option><option>Accessoires</option><option>Divers</option></select></div>
+          <div class="field"><label>Statut</label><select id="sf-st"><option>✅ PRÊT</option><option>⭐ URGENT</option><option>🔵 Prioritaire</option><option>En cours</option><option>⚠ PERTE</option></select></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Coût (DT)</label><input id="sf-cout" type="number" placeholder="0"></div>
+          <div class="field"><label>Prix (DT)</label><input id="sf-prix" type="number" placeholder="0"></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Date Entrée</label><input id="sf-de" type="date"></div>
+          <div class="field"><label>Avancement %</label><input id="sf-av" type="number" min="0" max="100" placeholder="80"></div>
+        </div>
+        <div class="field"><label>Provenance</label><input id="sf-prov" placeholder="Ville / Origine"></div>
+        <div class="field"><label>Travaux</label><textarea id="sf-trav" rows="2" placeholder="Travaux restants..."></textarea></div>
+        <button class="btn btn-gold btn-full btn-lg" onclick="saveStockItem()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHEET: VENTE -->
+  <div class="overlay" id="sh-vente">
+    <div class="sheet">
+      <div class="sh-handle"></div>
+      <div class="sh-ttl"><span>Enregistrer une Vente</span><span class="sh-x" onclick="closeOverlays()">✕</span></div>
+      <div class="sh-body">
+        <div class="field"><label>Article</label><select id="vf-sel" onchange="fillVente()"><option value="">— Depuis stock —</option></select><input id="vf-art" placeholder="Ou saisir manuellement" style="margin-top:8px"></div>
+        <div class="g2">
+          <div class="field"><label>Coût (DT)</label><input id="vf-cout" type="number" oninput="prvVMarge()"></div>
+          <div class="field"><label>Prix Vendu (DT)</label><input id="vf-vendu" type="number" oninput="prvVMarge()"></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Type</label><select id="vf-typ"><option value="C">CHR</option><option value="L">Liquidation</option></select></div>
+          <div class="field"><label>Date</label><input id="vf-dv" type="date"></div>
+        </div>
+        <div class="field"><label>Acheteur</label><input id="vf-prov" placeholder="Nom · Ville"></div>
+        <div id="vf-mprev" style="display:none;background:var(--goldbg);border:1px solid var(--gold3);border-radius:14px;padding:14px;margin-bottom:14px">
+          <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;margin-bottom:4px">Marge estimée</div>
+          <div id="vf-mval" style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-1px"></div>
+        </div>
+        <button class="btn btn-green btn-full btn-lg" onclick="saveVenteItem()">✓ Confirmer la Vente</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHEET: CONTACT ADD/EDIT -->
+  <div class="overlay" id="sh-contact">
+    <div class="sheet">
+      <div class="sh-handle"></div>
+      <div class="sh-ttl"><span id="sh-ct-ttl">Nouveau Contact</span><span class="sh-x" onclick="closeOverlays()">✕</span></div>
+      <div class="sh-body">
+        <input type="hidden" id="ctf-id">
+        <div class="g2">
+          <div class="field"><label>Nom *</label><input id="ctf-nom" placeholder="Nom complet"></div>
+          <div class="field"><label>Téléphone *</label><input id="ctf-tel" type="tel" placeholder="+216..."></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Type</label><select id="ctf-type"><option value="contact">Contact</option><option value="client">Client</option><option value="fournisseur">Fournisseur</option></select></div>
+          <div class="field"><label>Ville</label><input id="ctf-zone" placeholder="Tunis, Radès..."></div>
+        </div>
+        <div class="field"><label>Note</label><input id="ctf-note" placeholder="Infos supplémentaires..."></div>
+        <button class="btn btn-gold btn-full btn-lg" onclick="saveContact()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHEET: NOTE ADD/EDIT -->
+  <div class="overlay" id="sh-note">
+    <div class="sheet">
+      <div class="sh-handle"></div>
+      <div class="sh-ttl"><span id="sh-note-ttl">Nouvelle Note</span><span class="sh-x" onclick="closeOverlays()">✕</span></div>
+      <div class="sh-body">
+        <input type="hidden" id="nf-id">
+        <div class="field"><label>Titre</label><input id="nf-title" placeholder="Titre de la note..."></div>
+        <div class="field"><label>Contenu</label><textarea id="nf-content" rows="6" placeholder="Votre note ici..."></textarea></div>
+        <button class="btn btn-gold btn-full btn-lg" onclick="saveNote()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DOC FORM -->
+  <div style="position:fixed;inset:0;background:var(--bg);z-index:550;display:none;flex-direction:column;overflow:hidden" id="m-doc">
+    <div style="height:calc(var(--safe-t)+56px);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:flex-end;padding:0 16px 12px;gap:12px;flex-shrink:0">
+      <div onclick="closeDoc()" style="width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div style="font-size:17px;font-weight:700;color:var(--text);flex:1;letter-spacing:-0.3px" id="m-doc-ttl">Nouveau Devis</div>
+      <button class="btn btn-ghost btn-sm" onclick="printDoc()">🖨️</button>
+      <button class="btn btn-gold btn-sm" onclick="saveDoc()">Sauver</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px">
+      <input type="hidden" id="dc-type"><input type="hidden" id="dc-id">
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-hd"><span class="card-t">Client</span><button class="btn btn-ghost btn-sm" onclick="pickDocClient()">Choisir</button></div>
+        <div class="card-bd">
+          <div class="g2"><div class="field" style="margin-bottom:0"><label>Nom</label><input id="dc-cnom" placeholder="Nom client"></div><div class="field" style="margin-bottom:0"><label>Téléphone</label><input id="dc-ctel" placeholder="+216..."></div></div>
+          <div class="field" style="margin-top:10px;margin-bottom:0"><label>Adresse</label><input id="dc-cadr" placeholder="Adresse"></div>
+          <div id="dc-status-wrap" style="display:none;margin-top:10px"><div class="field" style="margin-bottom:0"><label>Paiement</label><select id="dc-status"><option value="pending">⏳ En attente</option><option value="partial">⚡ Partiel</option><option value="paid">✅ Payé</option></select></div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-hd"><span class="card-t">Articles</span><button class="btn btn-gold btn-sm" onclick="addDocLine()">+ Ligne</button></div>
+        <div id="dc-lines"></div>
+        <div style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border-top:1px solid var(--border);border-radius:0 0 16px 16px">
+          <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase">TOTAL</span>
+          <span id="dc-total" style="font-size:24px;font-weight:800;color:var(--gold);letter-spacing:-1px">0 DT</span>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-bd">
+          <div class="field"><label>Notes</label><textarea id="dc-notes" rows="2" placeholder="Conditions de paiement..."></textarea></div>
+          <div class="field" style="margin-bottom:0"><label>Validité</label><input id="dc-valid" type="date"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-hd"><span class="card-t">📤 Partager</span></div>
+        <div class="share-row">
+          <button class="share-btn" style="background:#25D366;color:#fff" onclick="shareDoc('wa')">📱 WhatsApp</button>
+          <button class="share-btn" style="background:#1877F2;color:#fff" onclick="shareDoc('fb')">📘 Facebook</button>
+          <button class="share-btn" style="background:var(--bg3);color:var(--text);border:1px solid var(--border)" onclick="shareDoc('copy')">📋 Copier</button>
+          <button class="share-btn" style="background:var(--bg3);color:var(--text);border:1px solid var(--border)" onclick="shareDoc('nat')">↗ Partager</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PICK CLIENT FOR DOC -->
+  <div style="position:fixed;inset:0;background:var(--bg);z-index:560;display:none;flex-direction:column" id="m-pick-cl">
+    <div style="height:calc(var(--safe-t)+56px);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:flex-end;padding:0 16px 12px;gap:12px;flex-shrink:0">
+      <div onclick="document.getElementById('m-pick-cl').style.display='none'" style="width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <div style="font-size:17px;font-weight:700;color:var(--text)">Choisir un Client</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:14px" id="pick-cl-list"></div>
+  </div>
+
+  <!-- DIALOG: EXIT -->
+  <div class="dialog" id="dlg-exit">
+    <div class="dlg">
+      <div class="dlg-ico-wrap" style="background:var(--red2)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <div class="dlg-t">Quitter l'application ?</div>
+      <div class="dlg-s">Toutes vos données sont sauvegardées localement.</div>
+      <div class="dlg-btns">
+        <button class="btn btn-ghost btn-full" onclick="closeOverlays()">Annuler</button>
+        <button class="btn btn-red btn-full" onclick="history.go(-history.length)">Quitter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIALOG: DELETE -->
+  <div class="dialog" id="dlg-del">
+    <div class="dlg">
+      <div class="dlg-ico-wrap" style="background:var(--red2)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      </div>
+      <div class="dlg-t">Supprimer ?</div>
+      <div class="dlg-s" id="dlg-del-txt">—</div>
+      <div class="dlg-btns">
+        <button class="btn btn-ghost btn-full" onclick="closeOverlays()">Annuler</button>
+        <button class="btn btn-red btn-full" id="dlg-del-ok">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════
+const LD=(k,d)=>{try{const v=localStorage.getItem('she3_'+k);return v?JSON.parse(v):d;}catch{return d;}};
+const SV=(k,v)=>{try{localStorage.setItem('she3_'+k,JSON.stringify(v));}catch{}};
+
+// Default Data
+const SD_DEF=[
+{id:1,art:"Vitrine Glace Sanson FRAMEC ⭐",cat:"Vitrine glace",cout:800,prix:3500,av:.90,st:"⭐ URGENT",trav:"Fixation + polissage",prov:"Korba",de:"2025-07-29"},
+{id:2,art:"Vitrine Glace Côte d'Or vanille ISA",cat:"Vitrine glace",cout:1500,prix:4000,av:.95,st:"⭐ URGENT",trav:"Finition → +2500 DT marge !",prov:"Laouina",de:"2025-09-07"},
+{id:3,art:"Four Pizza Empero Frigotechnique #1",cat:"Four pizza",cout:1700,prix:2500,av:1.0,st:"✅ PRÊT",trav:"100% opérationnel",prov:"Montplaisir",de:"2025-11-25"},
+{id:4,art:"Four Pizza Empero Frigotechnique #2",cat:"Four pizza",cout:1700,prix:2500,av:1.0,st:"✅ PRÊT",trav:"100% opérationnel",prov:"Omrane",de:"2026-01-06"},
+{id:5,art:"Comptoir Sandwich 2m Frigotechnique marbre",cat:"Comptoir sandwich",cout:1300,prix:3300,av:.90,st:"🔵 Prioritaire",trav:"Mastique + polissage",prov:"Nabeul",de:"2026-02-16"},
+{id:6,art:"Machine Café Reneka française",cat:"Machine café",cout:1500,prix:2000,av:.95,st:"🔵 Prioritaire",trav:"Polissage général",prov:"Laouina",de:"2025-09-07"},
+{id:7,art:"Congélateur horiz. vitré 1,5m UGUR",cat:"Congélateur horiz vitré",cout:700,prix:1200,av:1.0,st:"✅ PRÊT",trav:"Excellent état",prov:"Mornag",de:"2026-01-04"},
+{id:8,art:"Four Pâtisserie 4 étages Frigotechnique",cat:"Four pâtisserie",cout:1700,prix:2400,av:1.0,st:"✅ PRÊT",trav:"Polissage final",prov:"Sliman",de:"2026-01-11"},
+{id:9,art:"Réfrig. vertical vitré Président UGUR",cat:"Réfrig. vertical vitré",cout:900,prix:1400,av:.95,st:"🔵 Prioritaire",trav:"Remplacement socle + polissage",prov:"La Marsa",de:"2026-03-08"},
+{id:10,art:"Friteuse jamais utilisée + garantie",cat:"Friteuse",cout:500,prix:1000,av:1.0,st:"✅ PRÊT",trav:"Jamais utilisée",prov:"Mourouj 6",de:"2026-03-01"},
+];
+const VD_DEF=[
+{id:1,art:"Machine café gaz + moulin",cat:"Machine café",cout:3000,vendu:3500,dv:"2025-07-17",typ:"C",prov:"Mégrine"},
+{id:2,art:"Vitrine à glace blindée inox ISA",cat:"Vitrine glace",cout:1700,vendu:3500,dv:"2025-07-15",typ:"C",prov:"Mahdia"},
+{id:3,art:"Congélateur vertical UGUR jaune Palme",cat:"Congélateur vertical vitré",cout:1000,vendu:1700,dv:"2025-10-01",typ:"C",prov:"Mohsen / Mhamdia"},
+{id:4,art:"Buffet réfrigéré pro 4 bacs",cat:"Buffet réfrig.",cout:1400,vendu:2500,dv:"2025-12-30",typ:"C",prov:"Laouina"},
+{id:5,art:"Réfrig. vertical vitré Coca Cola",cat:"Réfrig. vertical vitré",cout:950,vendu:1500,dv:"2025-10-10",typ:"C",prov:"Mohsen / Mhamdia"},
+{id:6,art:"Vitrine verticale réfrig. 4 faces",cat:"Vitrine réfrig.",cout:650,vendu:2150,dv:"2026-02-22",typ:"C",prov:"Cité Tadhamon"},
+];
+const CL_DEF=[
+{id:1,nom:"Mohsen",zone:"Mhamdia",tel:"+216 50 XXX XXX",cats:"Congélateurs · Vitrines",nb:5,mont:9600,note:"VIP — priorité absolue",type:"client"},
+{id:2,nom:"Adel",zone:"Radès",tel:"+216 XX XXX XXX",cats:"Comptoirs · Pétrins",nb:6,mont:7600,note:"Partenaire fidèle",type:"client"},
+{id:3,nom:"Zouhaier",zone:"Hammam Lif",tel:"+216 XX XXX XXX",cats:"Vitrines glace ISA",nb:2,mont:3800,note:"Spécialiste glacé",type:"client"},
+];
+const CF_DEF={loyer:750,gasoil:300,internet:80,entretien:80,fond_encaisse:30000,fond_creance:15000,wa:'+21620910909'};
+
+let SD=LD('s',SD_DEF), VD=LD('v',VD_DEF), CL=LD('c',CL_DEF), CF=LD('cfg',CF_DEF);
+let nS=LD('ns',100), nV=LD('nv',200), nC=LD('nc',10);
+let notes=LD('notes',[]), contacts=LD('contacts',CL_DEF.map(c=>({...c,type:'client'})));
+let docsData=LD('docs',[]), docNum=LD('docnum',1);
+let docLines=[], curDocId=null, docTabA='devis';
+let gTab_active='stock', repTab_active='all';
+let photos=LD('photos',[]);
+let catIdx=0;
+
+const SA=()=>{SV('s',SD);SV('v',VD);SV('c',CL);SV('cfg',CF);SV('ns',nS);SV('nv',nV);SV('nc',nC);SV('notes',notes);SV('contacts',contacts);SV('docs',docsData);SV('docnum',docNum);SV('photos',photos);};
+const fm=n=>new Intl.NumberFormat('fr-TN').format(Math.round(n))+' DT';
+const fd=d=>d?new Date(d+'T00:00').toLocaleDateString('fr-FR'):'—';
+const td=()=>new Date().toISOString().slice(0,10);
+const avi=nom=>{const cs=['#D4880A','#16A34A','#2563EB','#7C3AED','#DC2626','#0D9488'];let h=0;for(const c of(nom||''))h+=c.charCodeAt(0);return cs[h%cs.length];};
+const ini=s=>(s||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+const BST={'✅ PRÊT':'b-pret','⭐ URGENT':'b-urg','🔵 Prioritaire':'b-pri','En cours':'b-enc','⚠ PERTE':'b-per'};
+function catCode(cat,id){const m={'vitrine glace':'R-VG','vitrine réfrig':'R-VR','réfrig. vertical':'R-FV','congélateur horiz':'R-CH','congélateur vertical':'R-CV','buffet réfrig':'R-BF','four pizza':'C-FP','four pâtisserie':'C-FT','four':'C-FG','machine café':'B-MC','comptoir sandwich':'B-CS','pétrin':'C-PT','friteuse':'C-FI','grillade':'C-GR'};const cl=(cat||'').toLowerCase();let code='D-DI';for(const[k,v]of Object.entries(m))if(cl.includes(k)){code=v;break;}return id?`${code}-${String(id).padStart(3,'0')}`:code;}
+function catImg(cat){const cl=(cat||'').toLowerCase();if(cl.includes('glace'))return'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=600&q=80&fit=crop';if(cl.includes('réfrig')||cl.includes('frigo'))return'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop';if(cl.includes('four'))return'https://images.unsplash.com/photo-1556909114-44e3e9399a2b?w=600&q=80&fit=crop';if(cl.includes('café'))return'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80&fit=crop';if(cl.includes('comptoir'))return'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600&q=80&fit=crop';if(cl.includes('congélateur'))return'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80&fit=crop';if(cl.includes('friteuse'))return'https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=600&q=80&fit=crop';return'https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=600&q=80&fit=crop';}
+
+// ── TOAST ──
+function toast(m,t=''){const el=document.createElement('div');el.className='toast '+(t||'');el.textContent=m;document.getElementById('toasts').appendChild(el);setTimeout(()=>el.remove(),2700);}
+function confirmDel(txt,cb){document.getElementById('dlg-del-txt').textContent=txt;document.getElementById('dlg-del-ok').onclick=()=>{closeOverlays();cb();};document.getElementById('dlg-del').classList.add('on');}
+
+// ── CLOCK ──
+function updateClock(){
+  const now=new Date();
+  const el1=document.getElementById('hh-time');const el2=document.getElementById('hh-date');
+  if(el1)el1.textContent=now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  if(el2)el2.textContent=now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+}
+setInterval(updateClock,10000);
+
+// ── PRAYER ──
+const PRAYERS_FR=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']];
+function calcPrayerTimes(){
+  const now=new Date();const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
+  const jdn=(367*y-Math.floor(7*(y+Math.floor((m+9)/12))/4)+Math.floor(275*m/9)+d+1721013.5+(12/24));
+  const D=jdn-2451545;const g=(357.529+0.98560028*D)%360;const q=(280.459+0.98564736*D)%360;
+  const L=(q+2*0.0167*Math.sin(g*Math.PI/180)+2*0.000014*Math.sin(2*g*Math.PI/180))*Math.PI/180;
+  const e=(23.439-0.00000036*D)*Math.PI/180;const RA=Math.atan2(Math.cos(e)*Math.sin(L),Math.cos(L))/(15*Math.PI/180);
+  const dec=Math.asin(Math.sin(e)*Math.sin(L));const EqT=(q/15-((RA+360)%24));const lat=36.8*Math.PI/180;
+  const Dhuhr=12-EqT+(10.18/15);
+  const ha=(t)=>Math.acos((Math.sin(t*Math.PI/180)-Math.sin(dec)*Math.sin(lat))/(Math.cos(dec)*Math.cos(lat)))*180/Math.PI/15;
+  const Fajr=Dhuhr-ha(-18);const Sunrise=Dhuhr-ha(-0.833);const Asr=Dhuhr+ha(Math.atan(1+Math.tan(Math.abs(lat-dec)))*180/Math.PI);
+  const Maghrib=Dhuhr+ha(-0.833);const Isha=Dhuhr+ha(-18);
+  const fmt=h=>{const hour=Math.floor(h);const min=Math.round((h-hour)*60);return`${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}`};
+  return[fmt(Fajr),fmt(Sunrise),fmt(Dhuhr),fmt(Asr),fmt(Maghrib),fmt(Isha)];
+}
+function updatePrayer(){
+  const times=calcPrayerTimes();const now=new Date();const nowMins=now.getHours()*60+now.getMinutes();
+  let nextIdx=0,nextTime=times[0];
+  for(let i=0;i<times.length;i++){const[h,m]=times[i].split(':').map(Number);if(h*60+m>nowMins){nextIdx=i;nextTime=times[i];break;}}
+  const el=document.getElementById('hh-next-prayer');if(el)el.textContent=PRAYERS_FR[nextIdx][0]+' · '+nextTime;
+  const prT=document.getElementById('pr-next-time');if(prT)prT.textContent=nextTime;
+  const prL=document.getElementById('pr-next-label');if(prL)prL.textContent='Prochaine : '+PRAYERS_FR[nextIdx][0]+' · '+PRAYERS_FR[nextIdx][1];
+  const pl=document.getElementById('prayer-list');if(!pl)return;
+  pl.innerHTML=times.map((t,i)=>{
+    const[h,m]=t.split(':').map(Number);const mins=h*60+m;const isPast=mins<nowMins;const isNext=i===nextIdx&&!isPast;
+    return`<div class="prayer-row" style="${isNext?'background:rgba(22,163,74,.05);':''}">
+      <div><div class="prayer-name">${PRAYERS_FR[i][0]}</div><div class="prayer-name-ar">${PRAYERS_FR[i][1]}</div></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        ${isNext?`<span style="font-size:10px;background:var(--green2);color:var(--green);border-radius:20px;padding:3px 10px;font-weight:700">Suivante</span>`:''}
+        <div class="prayer-t" style="color:${isPast?'var(--text3)':isNext?'var(--green)':'var(--gold)'}">${t}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── ICON DEFINITIONS (iOS style SVG colors) ──
+const APP_ICONS = {
+  1: {bg:'linear-gradient(145deg,#1C7C54,#34A853)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,label:'Prière',labelAr:'تعبّد'},
+  2: {bg:'linear-gradient(145deg,#F5A623,#D4880A)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,label:'Notes'},
+  3: {bg:'linear-gradient(145deg,#7C3AED,#A855F7)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>`,label:'Photo'},
+  4: {bg:'linear-gradient(145deg,#25D366,#128C7E)',svg:`<svg viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,label:'WhatsApp'},
+  5: {bg:'linear-gradient(145deg,#1877F2,#4267B2)',svg:`<svg viewBox="0 0 24 24" fill="#fff"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>`,label:'Marché'},
+  6: {bg:'linear-gradient(145deg,#E1306C,#C13584)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,label:'Publier'},
+  7: {bg:'linear-gradient(145deg,#D4880A,#F5A623)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,label:'Gestion'},
+  8: {bg:'linear-gradient(145deg,#0D9488,#14B8A6)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,label:'Catalogue'},
+  9: {bg:'linear-gradient(145deg,#2563EB,#3B82F6)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="12" y1="17" x2="8" y2="17"/></svg>`,label:'Devis/Fact.'},
+  10: {bg:'linear-gradient(145deg,#4285F4,#34A853)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,label:'Google Lens'},
+  11: {bg:'linear-gradient(145deg,#64748B,#475569)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>`,label:'Outils'},
+  12: {bg:'linear-gradient(145deg,#16A34A,#22C55E)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>`,label:'Maps'},
+  13: {bg:'linear-gradient(145deg,#7C3AED,#8B5CF6)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>`,label:'Calc.'},
+  14: {bg:'linear-gradient(145deg,#DC2626,#EF4444)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v8a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,label:'Actualités'},
+  15: {bg:'linear-gradient(145deg,#0D9488,#0F766E)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,label:'Radio'},
+  16: {bg:'linear-gradient(145deg,#2563EB,#1D4ED8)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,label:'Répertoire'},
+  17: {bg:'linear-gradient(145deg,#374151,#1F2937)',svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>`,label:'Config'},
+};
+
+// ── QUICK TILES (top 8 on home) ──
+const QUICK_IDS = [4,5,7,8,9,6,2,1];
+// ── ALL IDS for more screen ──
+const ALL_IDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
+
+function buildTile(id, small=false){
+  const ico = APP_ICONS[id];
+  const actions = {
+    1:"openPanel(1)",2:"openPanel(2)",3:"openPanel(3)",
+    4:"openPanel(4)",5:"openPanel(5)",6:"openPanel(6)",
+    7:"switchTab('gest')",8:"openCatalogue()",9:"openPanel(9)",
+    10:"openPanel(10)",11:"openPanel(11)",12:"openPanel(12)",
+    13:"openPanel(13)",14:"openPanel(14)",15:"openPanel(15)",
+    16:"openPanel(16)",17:"openPanel(17)"
+  };
+  return `<div class="app-tile" onclick="${actions[id]||''}">
+    <div class="app-icon" style="background:${ico.bg}">${ico.svg}</div>
+    <div class="app-lbl">${ico.label}</div>
+  </div>`;
+}
+
+function buildHomeGrids(){
+  document.getElementById('quick-grid').innerHTML = QUICK_IDS.map(id=>buildTile(id)).join('');
+  document.getElementById('all-grid').innerHTML = [3,10,11,12,13,14,15,16,17].map(id=>buildTile(id)).join('');
+}
+function buildMoreGrid(){
+  document.getElementById('more-grid').innerHTML = ALL_IDS.map(id=>buildTile(id)).join('');
+}
+function buildHomeKPIs(){
+  const urgents=SD.filter(s=>s.st==='⭐ URGENT'||s.st==='🔵 Prioritaire').length;
+  const totalCA=VD.reduce((a,v)=>a+(v.vendu-v.cout),0);
+  document.getElementById('kpi-stock').textContent=SD.length;
+  document.getElementById('kpi-ca').textContent=fm(totalCA).replace(' DT','');
+  document.getElementById('kpi-clients').textContent=contacts.filter(c=>c.type==='client').length;
+  document.getElementById('home-alert-txt').textContent=urgents>0?`${urgents} article(s) URGENT — action requise`:`${SD.filter(s=>s.st==='✅ PRÊT').length} articles prêts à vendre`;
+}
+
+// ── TAB NAVIGATION ──
+let activeTab='home';
+let curPanel=null, exitCount=0, exitTimer=null;
+
+function switchTab(tab){
+  activeTab=tab;
+  // Hide all screens
+  document.getElementById('home-scr').style.display='none';
+  document.getElementById('gest-scr').style.display='none';
+  document.getElementById('more-scr').style.display='none';
+  closePanel();
+  // Update tab bar active state
+  ['home','gest','cat','docs','more'].forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    if(el)el.classList.remove('active');
+  });
+  if(tab==='home'){
+    document.getElementById('home-scr').style.display='block';
+    document.getElementById('tab-home').classList.add('active');
+  } else if(tab==='gest'){
+    const g=document.getElementById('gest-scr');g.style.display='flex';
+    document.getElementById('tab-gest').classList.add('active');
+    rGestion();
+  } else if(tab==='more'){
+    document.getElementById('more-scr').style.display='block';
+    document.getElementById('tab-more').classList.add('active');
+    buildMoreGrid();
+  } else if(tab==='docs'){
+    document.getElementById('tab-docs').classList.add('active');
+    openPanel(9);
+  }
+}
+
+function openPanel(id){
+  curPanel=id;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  const p=document.getElementById('p-'+id);
+  if(p){p.classList.add('on');}
+  // Render content
+  const renders={1:updatePrayer,2:rNotes,3:rPhoto,6:rPublier,9:rDocs,11:rTools,13:()=>{},14:rNews,15:rRadio,16:rRepertoire,17:rConfig};
+  if(renders[id])renders[id]();
+}
+function closePanel(){
+  if(curPanel){document.getElementById('p-'+curPanel)?.classList.remove('on');curPanel=null;}
+}
+function closeOverlays(){document.querySelectorAll('.overlay.on,.dialog.on').forEach(e=>e.classList.remove('on'));}
+function closeDoc(){document.getElementById('m-doc').style.display='none';}
+
+// ── BACK/EXIT HANDLING ──
+window.addEventListener('popstate',()=>{
+  history.pushState(null,'',location.href);
+  // Layer priority: drawer > doc modal > overlay > dialog > panel > exit
+  const mfull=document.getElementById('m-doc');
+  if(mfull.style.display!=='none'){closeDoc();return;}
+  const pickCl=document.getElementById('m-pick-cl');
+  if(pickCl.style.display!=='none'){pickCl.style.display='none';return;}
+  const catBook=document.getElementById('cat-book');
+  if(catBook.classList.contains('on')){closeCatalogue();return;}
+  const ov=document.querySelector('.overlay.on');if(ov){ov.classList.remove('on');return;}
+  const dlg=document.querySelector('.dialog.on');if(dlg){dlg.classList.remove('on');return;}
+  if(curPanel){closePanel();return;}
+  // Exit confirmation
+  exitCount++;
+  if(exitCount===1){toast('Appuyez encore pour quitter');exitTimer=setTimeout(()=>exitCount=0,2500);}
+  else{clearTimeout(exitTimer);exitCount=0;document.getElementById('dlg-exit').classList.add('on');}
+});
+history.pushState(null,'',location.href);
+
+// ── SWIPE GESTURES ──
+let swX=0,swY=0;
+document.addEventListener('touchstart',e=>{swX=e.touches[0].clientX;swY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-swX;const dy=Math.abs(e.changedTouches[0].clientY-swY);
+  if(Math.abs(dx)>60&&dy<50){
+    if(dx<0){
+      // Swipe left: next tab
+      const tabs=['home','gest','docs','more'];const i=tabs.indexOf(activeTab);
+      if(curPanel){closePanel();return;}
+      if(i<tabs.length-1)switchTab(tabs[i+1]);
+    } else {
+      // Swipe right: prev tab or close panel
+      if(curPanel){closePanel();return;}
+      const tabs=['home','gest','docs','more'];const i=tabs.indexOf(activeTab);
+      if(i>0)switchTab(tabs[i-1]);
+    }
+  }
+},{passive:true});
+
+// ── GESTION ──
+function rGestion(){
+  // KPIs
+  const urgCnt=SD.filter(s=>s.st==='⭐ URGENT').length;
+  const totalStock=SD.reduce((a,s)=>a+s.prix,0);
+  const totalMarge=VD.reduce((a,v)=>a+(v.vendu-v.cout),0);
+  const totalCharges=CF.loyer+CF.gasoil+CF.internet+CF.entretien;
+  document.getElementById('gest-kpis').innerHTML=`
+    <div class="kpi-box"><div class="kpi-box-val" style="color:var(--gold)">${fm(totalStock)}</div><div class="kpi-box-lbl">Valeur Stock</div></div>
+    <div class="kpi-box"><div class="kpi-box-val" style="color:var(--green)">${fm(totalMarge)}</div><div class="kpi-box-lbl">Bénéfices</div></div>
+    <div class="kpi-box"><div class="kpi-box-val" style="color:${urgCnt>0?'var(--red)':'var(--text)'}">${urgCnt}</div><div class="kpi-box-lbl">Urgents</div></div>
+  `;
+  gTab(gTab_active);
+}
+function gTab(t){
+  gTab_active=t;
+  ['stock','ventes','finance','clients'].forEach(x=>{
+    const el=document.getElementById('gt-'+x);if(!el)return;
+    el.classList.toggle('act',x===t);
+  });
+  const c=document.getElementById('gest-content');if(!c)return;
+  if(t==='stock') rStock();
+  else if(t==='ventes') rVentes();
+  else if(t==='finance') rFinance();
+  else if(t==='clients') rClients();
+}
+function rStock(){
+  const c=document.getElementById('gest-content');if(!c)return;
+  c.innerHTML=SD.map((s,i)=>`
+    <div class="stock-card" onclick="editStockItem(${i})">
+      <div class="stock-card-top">
+        <img class="stock-img" src="${catImg(s.cat)}" loading="lazy" onerror="this.style.background='var(--bg3)'">
+        <div style="flex:1">
+          <div class="stock-name">${s.art}</div>
+          <div class="stock-cat">${catCode(s.cat,s.id)}</div>
+        </div>
+        <span class="badge ${BST[s.st]||'b-enc'}">${s.st}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">${s.trav}</div>
+      <div class="stock-row">
+        <div>
+          <div class="stock-price">${fm(s.prix)}</div>
+          <div class="stock-cost">Coût: ${fm(s.cout)}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:13px;font-weight:700;color:var(--green)">+${fm(s.prix-s.cout)}</div>
+          <div style="font-size:10px;color:var(--text3)">${fd(s.de)} · ${s.prov}</div>
+        </div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${(s.av*100)}%"></div></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-green btn-sm btn-full" onclick="event.stopPropagation();openVenteForStock(${i})">✓ Vendu</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();confirmDel('Supprimer ${s.art.slice(0,30)}?',()=>{SD.splice(${i},1);SA();rGestion();})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function rVentes(){
+  const c=document.getElementById('gest-content');if(!c)return;
+  c.innerHTML=`<button class="btn btn-green btn-full" style="margin-bottom:14px" onclick="openAddVente()">+ Enregistrer une vente</button>`+
+  VD.slice().reverse().map((v,ri)=>{const i=VD.length-1-ri;const mg=v.vendu-v.cout;return`
+    <div class="stock-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div style="flex:1"><div class="stock-name">${v.art}</div><div class="stock-cat">${v.cat} · ${fd(v.dv)}</div></div>
+        <button onclick="confirmDel('Supprimer?',()=>{VD.splice(${i},1);SA();rGestion();})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px">🗑</button>
+      </div>
+      <div class="stock-row">
+        <div><div class="stock-price">${fm(v.vendu)}</div><div class="stock-cost">Coût: ${fm(v.cout)} · ${v.prov}</div></div>
+        <div style="text-align:right"><div style="font-size:18px;font-weight:800;color:${mg>0?'var(--green)':'var(--red)'}">${mg>0?'+':''}${fm(mg)}</div></div>
+      </div>
+    </div>`}).join('');
+}
+function rFinance(){
+  const c=document.getElementById('gest-content');if(!c)return;
+  const totalMarge=VD.reduce((a,v)=>a+(v.vendu-v.cout),0);
+  const totalCharges=CF.loyer+CF.gasoil+CF.internet+CF.entretien;
+  const benefNet=totalMarge-totalCharges;
+  c.innerHTML=`
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hd"><span class="card-t">📊 Synthèse</span></div>
+      <div class="card-bd">
+        ${[['Marge brute ventes',fm(totalMarge),'var(--green)'],['Charges mensuelles',fm(totalCharges),'var(--red)'],['Bénéfice net estimé',fm(benefNet),benefNet>0?'var(--green)':'var(--red)'],['Fonds encaisse',fm(CF.fond_encaisse),'var(--text)'],['Créances clients',fm(CF.fond_creance),'var(--orange)']].map(([l,v,c])=>`
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:13px;color:var(--text2)">${l}</div>
+            <div style="font-size:14px;font-weight:800;color:${c}">${v}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hd"><span class="card-t">⚙️ Charges Mensuelles</span></div>
+      <div class="card-bd">
+        <div class="g2">
+          <div class="field"><label>Loyer</label><input type="number" value="${CF.loyer}" onchange="CF.loyer=+this.value;SA();rFinance()"></div>
+          <div class="field"><label>Gasoil</label><input type="number" value="${CF.gasoil}" onchange="CF.gasoil=+this.value;SA();rFinance()"></div>
+          <div class="field"><label>Internet</label><input type="number" value="${CF.internet}" onchange="CF.internet=+this.value;SA();rFinance()"></div>
+          <div class="field"><label>Entretien</label><input type="number" value="${CF.entretien}" onchange="CF.entretien=+this.value;SA();rFinance()"></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Fonds encaisse</label><input type="number" value="${CF.fond_encaisse}" onchange="CF.fond_encaisse=+this.value;SA();rFinance()"></div>
+          <div class="field"><label>Créances</label><input type="number" value="${CF.fond_creance}" onchange="CF.fond_creance=+this.value;SA();rFinance()"></div>
+        </div>
+      </div>
+    </div>`;
+}
+function rClients(){
+  const c=document.getElementById('gest-content');if(!c)return;
+  const cls=contacts.filter(ct=>ct.type==='client');
+  c.innerHTML=`<button class="btn btn-gold btn-full" style="margin-bottom:14px" onclick="openAddContact()">+ Nouveau client</button>`+
+  cls.map((ct,i)=>`
+    <div class="stock-card" onclick="callContact('${ct.tel}')">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="avatar" style="background:${avi(ct.nom)}">${ini(ct.nom)}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${ct.nom}</div>
+          <div style="font-size:11px;color:var(--text3)">${ct.zone||''} · ${ct.tel||''}</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:3px">${ct.note||''}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// Stock management
+function editStockItem(i){
+  const s=SD[i];
+  document.getElementById('sf-id').value=i;
+  document.getElementById('sf-art').value=s.art;
+  document.getElementById('sf-cat').value=s.cat;
+  document.getElementById('sf-st').value=s.st;
+  document.getElementById('sf-cout').value=s.cout;
+  document.getElementById('sf-prix').value=s.prix;
+  document.getElementById('sf-de').value=s.de||'';
+  document.getElementById('sf-av').value=Math.round(s.av*100);
+  document.getElementById('sf-prov').value=s.prov||'';
+  document.getElementById('sf-trav').value=s.trav||'';
+  document.getElementById('sh-st-ttl').textContent='Modifier Article';
+  document.getElementById('sh-stock').classList.add('on');
+}
+function openAddStockSheet(){
+  document.getElementById('sf-id').value='';
+  document.getElementById('sf-art').value='';document.getElementById('sf-cout').value='';
+  document.getElementById('sf-prix').value='';document.getElementById('sf-de').value=td();
+  document.getElementById('sf-av').value='80';document.getElementById('sf-prov').value='';
+  document.getElementById('sf-trav').value='';document.getElementById('sh-st-ttl').textContent='Nouvel Article';
+  document.getElementById('sh-stock').classList.add('on');
+}
+function saveStockItem(){
+  const idxVal=document.getElementById('sf-id').value;
+  const art=document.getElementById('sf-art').value.trim();if(!art){toast('Article requis','r');return;}
+  const item={id:idxVal===''?(Math.max(0,...SD.map(s=>s.id))+1):SD[+idxVal].id,art,cat:document.getElementById('sf-cat').value,st:document.getElementById('sf-st').value,cout:+document.getElementById('sf-cout').value||0,prix:+document.getElementById('sf-prix').value||0,de:document.getElementById('sf-de').value,av:(+document.getElementById('sf-av').value||80)/100,prov:document.getElementById('sf-prov').value,trav:document.getElementById('sf-trav').value};
+  if(idxVal==='')SD.push(item);else SD[+idxVal]=item;
+  SA();closeOverlays();rGestion();buildHomeKPIs();toast('Enregistré ✓','g');
+}
+function openVenteForStock(i){
+  openAddVente();
+  document.getElementById('vf-sel').value=i;fillVente();
+}
+function openAddVente(){
+  document.getElementById('vf-art').value='';document.getElementById('vf-cout').value='';
+  document.getElementById('vf-vendu').value='';document.getElementById('vf-dv').value=td();
+  document.getElementById('vf-prov').value='';document.getElementById('vf-mprev').style.display='none';
+  const sel=document.getElementById('vf-sel');sel.innerHTML='<option value="">— Depuis stock —</option>'+SD.map((s,i)=>`<option value="${i}">${s.art.slice(0,40)}</option>`).join('');
+  document.getElementById('sh-vente').classList.add('on');
+}
+function fillVente(){
+  const idx=document.getElementById('vf-sel').value;
+  if(idx==='')return;const s=SD[+idx];
+  document.getElementById('vf-art').value=s.art;
+  document.getElementById('vf-cout').value=s.cout;
+  document.getElementById('vf-vendu').value=s.prix;
+  prvVMarge();
+}
+function prvVMarge(){
+  const c=+document.getElementById('vf-cout').value||0,v=+document.getElementById('vf-vendu').value||0;
+  if(!c&&!v)return;const mg=v-c;
+  document.getElementById('vf-mprev').style.display='block';
+  document.getElementById('vf-mval').textContent=fm(mg);
+  document.getElementById('vf-mval').style.color=mg>0?'var(--green)':'var(--red)';
+}
+function saveVenteItem(){
+  const art=(document.getElementById('vf-sel').value!==''?SD[+document.getElementById('vf-sel').value]?.art:document.getElementById('vf-art').value)||'Article';
+  const cout=+document.getElementById('vf-cout').value||0,vendu=+document.getElementById('vf-vendu').value||0;
+  if(!vendu){toast('Prix vendu requis','r');return;}
+  const item={id:Math.max(0,...VD.map(v=>v.id))+1,art,cat:'—',cout,vendu,dv:document.getElementById('vf-dv').value,typ:document.getElementById('vf-typ').value,prov:document.getElementById('vf-prov').value};
+  // Remove from stock if from stock
+  const idx=document.getElementById('vf-sel').value;
+  if(idx!==''){SD.splice(+idx,1);}
+  VD.push(item);SA();closeOverlays();rGestion();buildHomeKPIs();toast('Vente enregistrée ✓','g');
+}
+
+// ── NOTES ──
+function rNotes(){
+  const el=document.getElementById('notes-list');if(!el)return;
+  if(!notes.length){el.innerHTML='<div style="text-align:center;padding:48px 24px;color:var(--text3)"><div style="font-size:48px;margin-bottom:14px">📝</div><div style="font-size:14px;font-weight:600">Aucune note</div><div style="font-size:12px;margin-top:6px">Créez votre première note</div></div>';return;}
+  el.innerHTML=notes.slice().reverse().map((n,ri)=>{const i=notes.length-1-ri;return`
+    <div class="note-card">
+      <div onclick="openEditNote(${i})">
+        <div class="note-title">${n.title||'Sans titre'}</div>
+        <div class="note-preview">${n.content||''}</div>
+        <div class="note-date">${fd(n.date)}</div>
+      </div>
+      <div onclick="confirmDel('Supprimer cette note?',()=>{notes.splice(${i},1);SA();rNotes();})" style="position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:14px">✕</div>
+    </div>`;}).join('');
+}
+function openNewNote(){
+  document.getElementById('nf-id').value='';document.getElementById('nf-title').value='';document.getElementById('nf-content').value='';
+  document.getElementById('sh-note-ttl').textContent='Nouvelle Note';
+  document.getElementById('sh-note').classList.add('on');
+}
+function openEditNote(i){
+  const n=notes[i];
+  document.getElementById('nf-id').value=i;document.getElementById('nf-title').value=n.title||'';document.getElementById('nf-content').value=n.content||'';
+  document.getElementById('sh-note-ttl').textContent='Modifier Note';
+  document.getElementById('sh-note').classList.add('on');
+}
+function saveNote(){
+  const idxVal=document.getElementById('nf-id').value;
+  const note={title:document.getElementById('nf-title').value.trim()||'Sans titre',content:document.getElementById('nf-content').value,date:td()};
+  if(idxVal==='')notes.push(note);else notes[+idxVal]=note;
+  SA();closeOverlays();rNotes();toast('Note sauvegardée ✓','g');
+}
+
+// ── PHOTO ──
+function rPhoto(){
+  const pg=document.getElementById('photo-grid');const pe=document.getElementById('photo-empty');if(!pg)return;
+  if(!photos.length){pg.style.display='none';if(pe)pe.style.display='block';return;}
+  if(pe)pe.style.display='none';pg.style.display='grid';
+  pg.innerHTML=photos.map((_,i)=>`<img class="photo-thumb" src="${photos[i]}" loading="lazy" onclick="viewPhoto(${i})">`).join('');
+}
+function handlePhoto(inp){if(!inp.files.length)return;const fr=new FileReader();fr.onload=e=>{photos.unshift(e.target.result);SA();rPhoto();toast('Photo sauvegardée ✓','g');};fr.readAsDataURL(inp.files[0]);inp.value='';}
+function handleGallery(inp){[...inp.files].forEach(f=>{const fr=new FileReader();fr.onload=e=>{photos.unshift(e.target.result);SA();rPhoto();};fr.readAsDataURL(f);});inp.value='';toast(`${inp.files.length} photo(s) ajoutée(s)`,'g');}
+function viewPhoto(i){window.open(photos[i]);}
+
+// ── CATALOGUE ──
+function openCatalogue(){
+  catIdx=0;buildCatalogue();document.getElementById('cat-book').classList.add('on');
+}
+function closeCatalogue(){document.getElementById('cat-book').classList.remove('on');}
+function buildCatalogue(){
+  const el=document.getElementById('cat-slides');if(!el)return;
+  el.innerHTML=SD.map((s,i)=>`
+    <div class="cat-slide ${i===0?'on':''}" id="cat-sl-${i}">
+      <img class="cat-img" src="${catImg(s.cat)}" loading="lazy" alt="${s.art}">
+      <div class="cat-info">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">${catCode(s.cat,s.id)}</div>
+          <span class="badge ${BST[s.st]||'b-enc'}">${s.st}</span>
+        </div>
+        <div class="cat-item-name">${s.art}</div>
+        <div class="cat-item-price">${fm(s.prix)}</div>
+        <div class="cat-item-cost">Coût: ${fm(s.cout)} · Marge: +${fm(s.prix-s.cout)} · ${s.prov}</div>
+        ${s.trav?`<div style="font-size:11px;color:var(--text2);margin-top:6px">${s.trav}</div>`:''}
+      </div>
+    </div>`).join('');
+  buildCatDots();
+}
+function buildCatDots(){
+  const el=document.getElementById('cat-dots');if(!el)return;
+  el.innerHTML=SD.map((_,i)=>`<div class="cat-dot ${i===catIdx?'on':''}" onclick="goSlide(${i})"></div>`).join('');
+}
+function goSlide(i){
+  document.getElementById('cat-sl-'+catIdx)?.classList.remove('on');
+  catIdx=Math.max(0,Math.min(i,SD.length-1));
+  document.getElementById('cat-sl-'+catIdx)?.classList.add('on');
+  buildCatDots();
+}
+function catNav(d){goSlide(catIdx+d);}
+
+// Swipe in catalogue
+let catSwX=0;
+document.addEventListener('touchstart',e=>{
+  if(document.getElementById('cat-book').classList.contains('on'))catSwX=e.touches[0].clientX;
+},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(!document.getElementById('cat-book').classList.contains('on'))return;
+  const dx=e.changedTouches[0].clientX-catSwX;
+  if(Math.abs(dx)>50){catNav(dx<0?1:-1);}
+},{passive:true});
+
+// ── TOOLS ──
+const TOOLS_LIST=[
+  ['https://docs.google.com','#4285F4','Google Docs','Traitement de texte'],
+  ['https://sheets.google.com','#34A853','Google Sheets','Tableur en ligne'],
+  ['https://drive.google.com','#FBBC04','Google Drive','Stockage cloud'],
+  ['https://canva.com','#7C3AED','Canva','Design graphique'],
+  ['https://trello.com','#2563EB','Trello','Gestion de tâches'],
+  ['https://manychat.com','#0D9488','ManyChat','Chatbot automatisé'],
+  ['https://qrco.de','#1F2937','QR Code','Générateur QR'],
+  ['https://wetransfer.com','#16A34A','WeTransfer','Envoi de fichiers'],
+];
+function rTools(){
+  const el=document.getElementById('tools-grid');if(!el)return;
+  el.innerHTML=TOOLS_LIST.map(([u,c,n,s])=>`
+    <a href="${u}" target="_blank" class="link-item" style="margin-bottom:9px">
+      <div class="link-icon-wrap" style="background:${c}15"><div style="width:24px;height:24px;background:${c};border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700">${n[0]}</div></div>
+      <div class="link-info"><div class="link-name">${n}</div><div class="link-sub">${s}</div></div>
+      <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>`).join('');
+}
+
+// ── NEWS ──
+const NEWS_SOURCES=[
+  {name:'La Presse TN',url:'https://www.lapresse.tn',cat:'Tunisie',color:'#DC2626'},
+  {name:'Business News',url:'https://www.businessnews.com.tn',cat:'Économie',color:'#2563EB'},
+  {name:'Mosaique FM',url:'https://www.mosaiquefm.net',cat:'Actualité',color:'#D4880A'},
+  {name:'Reuters',url:'https://www.reuters.com',cat:'International',color:'#FF8800'},
+  {name:'Al Jazeera',url:'https://www.aljazeera.net/ar',cat:'Arabe',color:'#007A3D'},
+  {name:'CHRsocial',url:'https://www.facebook.com/groups/CHRTunisie','cat':'CHR Tunisie',color:'#7C3AED'},
+];
+function rNews(){
+  const el=document.getElementById('news-body');if(!el)return;
+  el.innerHTML=NEWS_SOURCES.map(s=>`
+    <a href="${s.url}" target="_blank" class="link-item" style="margin-bottom:10px">
+      <div class="link-icon-wrap" style="background:${s.color}15"><div style="width:24px;height:24px;background:${s.color};border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:800">${s.name[0]}</div></div>
+      <div class="link-info"><div class="link-name">${s.name}</div><div class="link-sub">${s.cat}</div></div>
+      <div class="link-arr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>`).join('');
+}
+
+// ── RADIO ──
+const RADIOS=[
+  {name:'Mosaique FM',url:'http://streaming.mosaiquefm.net/mosaikfm',fm:'FM 98.0',color:'#D4880A'},
+  {name:'Jawhara FM',url:'http://stream.jawharafm.net:8000/jawhara.mp3',fm:'FM 98.5',color:'#7C3AED'},
+  {name:'Radio RTCI',url:'http://rtci.radio.fr/aac',fm:'FM 104.3',color:'#2563EB'},
+  {name:'Express FM',url:'http://stream.expressfm.com.tn:8000/;stream',fm:'FM 100.5',color:'#DC2626'},
+];
+let radioPlaying=null, radioAudio=null;
+function rRadio(){
+  const el=document.getElementById('radio-list');if(!el)return;
+  el.innerHTML=RADIOS.map((r,i)=>`
+    <div class="radio-item ${radioPlaying===i?'radio-playing':''}" onclick="playRadio(${i})">
+      <div style="width:52px;height:52px;background:${r.color};border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--text)">${r.name}</div>
+        <div style="font-size:11px;color:var(--text3)">${r.fm}</div>
+      </div>
+      ${radioPlaying===i?'<div style="color:var(--gold);font-weight:700;font-size:13px">▶ En direct</div>':'<div style="color:var(--text3)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>'}
+    </div>`).join('');
+}
+function playRadio(i){
+  if(radioAudio){radioAudio.pause();radioAudio=null;}
+  if(radioPlaying===i){radioPlaying=null;rRadio();return;}
+  radioPlaying=i;rRadio();toast('Connexion à la radio…');
+  radioAudio=new Audio(RADIOS[i].url);radioAudio.play().catch(()=>toast('Impossible de connecter','r'));
+}
+
+// ── RÉPERTOIRE ──
+function rRepertoire(){
+  const el=document.getElementById('rep-list');if(!el)return;
+  repTab(repTab_active);
+}
+function repTab(t){
+  repTab_active=t;
+  ['all','clients','fournisseurs'].forEach(x=>{
+    const el=document.getElementById('rt-'+x);if(!el)return;
+    el.classList.toggle('act',x===t);
+  });
+  const el=document.getElementById('rep-list');if(!el)return;
+  let list=contacts;
+  if(t!=='all')list=contacts.filter(c=>c.type===t.slice(0,-1)||c.type===t);
+  if(!list.length){el.innerHTML='<div style="text-align:center;padding:48px;color:var(--text3);font-size:13px">Aucun contact</div>';return;}
+  el.innerHTML=list.map((c,i)=>`
+    <div class="contact-row">
+      <div class="avatar" style="background:${avi(c.nom)}">${ini(c.nom)}</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--text)">${c.nom}</div>
+        <div style="font-size:11px;color:var(--text3)">${c.zone||''} · ${c.type}</div>
+        <div style="font-size:11px;color:var(--text2)">${c.note||''}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a href="tel:${c.tel}" style="width:36px;height:36px;border-radius:18px;background:var(--green2);display:flex;align-items:center;justify-content:center;color:var(--green);text-decoration:none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.5 4.18 2 2 0 012.5 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </a>
+        <a href="https://wa.me/${c.tel?.replace(/\D/g,'')}" target="_blank" style="width:36px;height:36px;border-radius:18px;background:rgba(37,211,102,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px">💬</a>
+      </div>
+    </div>`).join('');
+}
+function openAddContact(){
+  document.getElementById('ctf-id').value='';document.getElementById('ctf-nom').value='';document.getElementById('ctf-tel').value='';document.getElementById('ctf-zone').value='';document.getElementById('ctf-note').value='';
+  document.getElementById('sh-ct-ttl').textContent='Nouveau Contact';
+  document.getElementById('sh-contact').classList.add('on');
+}
+function saveContact(){
+  const nom=document.getElementById('ctf-nom').value.trim();const tel=document.getElementById('ctf-tel').value.trim();
+  if(!nom){toast('Nom requis','r');return;}
+  const ct={id:Date.now(),nom,tel,zone:document.getElementById('ctf-zone').value,type:document.getElementById('ctf-type').value,note:document.getElementById('ctf-note').value};
+  contacts.push(ct);SA();closeOverlays();rRepertoire();rClients();toast('Contact ajouté ✓','g');
+}
+function callContact(tel){if(tel&&tel!=='+216 XX XXX XXX')window.open('tel:'+tel);}
+
+// ── DOCS ──
+function rDocs(){
+  const el=document.getElementById('doc-list');if(!el)return;
+  docTab(docTabA);
+}
+function docTab(t){
+  docTabA=t;
+  ['devis','facture'].forEach(x=>{const el=document.getElementById('dta-'+x);if(el){el.classList.toggle('act',x===t);}});
+  const el=document.getElementById('doc-list');if(!el)return;
+  const list=docsData.filter(d=>d.type===t);
+  if(!list.length){el.innerHTML=`<div style="text-align:center;padding:48px;color:var(--text3)"><div style="font-size:48px;margin-bottom:14px">${t==='devis'?'📄':'🧾'}</div><div style="font-size:14px;font-weight:600">Aucun ${t}</div><button class="btn btn-gold" style="margin-top:14px" onclick="openNewDoc('${t}')">Créer un ${t}</button></div>`;return;}
+  el.innerHTML=list.slice().reverse().map(d=>`
+    <div class="doc-item" onclick="openEditDoc('${d.id}')">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:12px;font-weight:700;color:var(--gold)">${d.num}</div>
+        <div style="font-size:11px;color:var(--text3)">${fd(d.date)}</div>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:var(--text)">${d.client||'Client —'}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <div style="font-size:18px;font-weight:800;color:var(--text)">${fm(d.total)}</div>
+        <span class="badge ${d.status==='paid'?'b-pret':d.status==='partial'?'b-pri':'b-enc'}">${d.status==='paid'?'✅ Payé':d.status==='partial'?'⚡ Partiel':'⏳ Attente'}</span>
+      </div>
+    </div>`).join('');
+}
+function openNewDoc(type){
+  curDocId=null;docLines=[];
+  document.getElementById('dc-type').value=type;document.getElementById('dc-id').value='';
+  document.getElementById('dc-cnom').value='';document.getElementById('dc-ctel').value='';
+  document.getElementById('dc-cadr').value='';document.getElementById('dc-notes').value='';
+  document.getElementById('dc-valid').value='';
+  document.getElementById('dc-status-wrap').style.display=type==='facture'?'block':'none';
+  document.getElementById('m-doc-ttl').textContent='Nouveau '+(type==='devis'?'Devis':'Facture');
+  document.getElementById('dc-lines').innerHTML='';document.getElementById('dc-total').textContent='0 DT';
+  document.getElementById('m-doc').style.display='flex';
+}
+function openEditDoc(id){
+  const d=docsData.find(x=>x.id===id);if(!d)return;
+  curDocId=id;docLines=d.lines||[];
+  document.getElementById('dc-type').value=d.type;document.getElementById('dc-id').value=id;
+  document.getElementById('dc-cnom').value=d.client||'';document.getElementById('dc-ctel').value=d.tel||'';
+  document.getElementById('dc-cadr').value=d.adr||'';document.getElementById('dc-notes').value=d.notes||'';
+  document.getElementById('dc-valid').value=d.valid||'';
+  document.getElementById('dc-status-wrap').style.display=d.type==='facture'?'block':'none';
+  if(d.status)document.getElementById('dc-status').value=d.status;
+  document.getElementById('m-doc-ttl').textContent=(d.type==='devis'?'Devis ':'Facture ')+d.num;
+  renderDocLines();document.getElementById('m-doc').style.display='flex';
+}
+function addDocLine(){
+  docLines.push({desc:'',qty:1,pu:0});renderDocLines();
+}
+function renderDocLines(){
+  const el=document.getElementById('dc-lines');if(!el)return;
+  el.innerHTML=docLines.map((l,i)=>`
+    <div style="padding:10px 14px;border-bottom:1px solid var(--border)">
+      <div class="field" style="margin-bottom:8px"><input value="${l.desc}" placeholder="Description" onchange="docLines[${i}].desc=this.value;calcDocTotal()"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center">
+        <div class="field" style="margin:0"><label>Qté</label><input type="number" value="${l.qty}" oninput="docLines[${i}].qty=+this.value;calcDocTotal()"></div>
+        <div class="field" style="margin:0"><label>Prix u. DT</label><input type="number" value="${l.pu}" oninput="docLines[${i}].pu=+this.value;calcDocTotal()"></div>
+        <button onclick="docLines.splice(${i},1);renderDocLines()" style="background:var(--red2);border:none;color:var(--red);border-radius:8px;padding:8px;cursor:pointer;margin-top:20px">✕</button>
+      </div>
+    </div>`).join('');
+  calcDocTotal();
+}
+function calcDocTotal(){const t=docLines.reduce((a,l)=>a+l.qty*l.pu,0);const el=document.getElementById('dc-total');if(el)el.textContent=fm(t);}
+function saveDoc(){
+  const type=document.getElementById('dc-type').value;
+  const client=document.getElementById('dc-cnom').value;
+  const total=docLines.reduce((a,l)=>a+l.qty*l.pu,0);
+  const doc={id:curDocId||('D'+Date.now()),type,num:(type==='devis'?'DEV-':'FAC-')+String(docNum++).padStart(3,'0'),date:td(),client,tel:document.getElementById('dc-ctel').value,adr:document.getElementById('dc-cadr').value,notes:document.getElementById('dc-notes').value,valid:document.getElementById('dc-valid').value,lines:[...docLines],total,status:type==='facture'?document.getElementById('dc-status').value:'pending'};
+  if(curDocId){const idx=docsData.findIndex(d=>d.id===curDocId);if(idx>=0)docsData[idx]=doc;}else docsData.push(doc);
+  SA();closeDoc();rDocs();toast('Document sauvegardé ✓','g');
+}
+function printDoc(){window.print();}
+function shareDoc(m){
+  const type=document.getElementById('dc-type').value;const client=document.getElementById('dc-cnom').value;
+  const total=docLines.reduce((a,l)=>a+l.qty*l.pu,0);
+  const txt=`📄 ${type.toUpperCase()} — Synergy Horeca\n👤 ${client}\n💰 Total: ${fm(total)}\n\nSynergy Horeca Equipment · +216 20 910 909`;
+  if(m==='wa')window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`,'_blank');
+  else if(m==='copy'){navigator.clipboard?.writeText(txt).then(()=>toast('Copié ✓','g'));}
+  else if(m==='nat'&&navigator.share)navigator.share({text:txt});
+  else if(m==='fb')window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://synergy-horeca.tn'),'_blank');
+}
+function pickDocClient(){
+  const el=document.getElementById('pick-cl-list');if(!el)return;
+  el.innerHTML=contacts.filter(c=>c.type==='client').map(c=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:13px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:9px;cursor:pointer;box-shadow:var(--shadow)" onclick="selectDocClient('${c.nom}','${c.tel||''}','${c.zone||''}');document.getElementById('m-pick-cl').style.display='none'">
+      <div class="avatar" style="background:${avi(c.nom)}">${ini(c.nom)}</div>
+      <div><div style="font-size:14px;font-weight:700;color:var(--text)">${c.nom}</div><div style="font-size:11px;color:var(--text3)">${c.zone||''} · ${c.tel||''}</div></div>
+    </div>`).join('');
+  document.getElementById('m-pick-cl').style.display='flex';
+}
+function selectDocClient(nom,tel,adr){document.getElementById('dc-cnom').value=nom;document.getElementById('dc-ctel').value=tel;document.getElementById('dc-cadr').value=adr;}
+
+// ── PUBLISH TEMPLATES ──
+function rPublier(){
+  const el=document.getElementById('templates-list');if(!el)return;
+  const tpls=[
+    {n:'Frigo neuf',t:'🔴 URGENT — À vendre : Frigo vitrine {état}. Prix: {prix} DT FERME. Prov. {ville}. ☎️ +216 20 910 909'},
+    {n:'Four pizza',t:'🍕 Four pizza professionnel à vendre. État {état}. Prix: {prix} DT. Tunis. ☎️ +216 20 910 909'},
+    {n:'Machine café',t:'☕ Machine café pro {marque}. Parfait état. Prix: {prix} DT. Contactez-nous ! ☎️ +216 20 910 909'},
+    {n:'Promotion',t:'🎉 PROMO Synergy Horeca ! Équipements CHR reconditionnés garantis. 📍Tunis. ☎️ +216 20 910 909'},
+  ];
+  el.innerHTML=tpls.map(t=>`<div class="tmpl-chip" onclick="copyTemplate('${t.t.replace(/'/g,"\\'")}')"><span style="font-size:12px">📋</span>${t.n}</div>`).join('');
+}
+function copyTemplate(t){navigator.clipboard?.writeText(t).then(()=>toast('Modèle copié ✓','g')).catch(()=>toast(t));}
+
+// ── CALCULATOR ──
+let calcExpr='', calcNew=true;
+function calcFn(v){
+  const exEl=document.getElementById('calc-expr');const valEl=document.getElementById('calc-val');if(!valEl)return;
+  const cur=valEl.textContent;
+  if(v==='ac'){calcExpr='';calcNew=true;valEl.textContent='0';if(exEl)exEl.textContent='';return;}
+  if(v==='+/-'){valEl.textContent=String(+cur*-1);return;}
+  if(v==='%'){valEl.textContent=String(+cur/100);return;}
+  if(['/','+','-','*'].includes(v)){calcExpr=cur+v;calcNew=true;if(exEl)exEl.textContent=calcExpr;return;}
+  if(v==='='){
+    if(exEl)exEl.textContent=calcExpr+cur;
+    try{const r=Function('"use strict";return('+calcExpr+cur+')')();valEl.textContent=String(Math.round(r*10000)/10000);}
+    catch{valEl.textContent='Erreur';}
+    calcExpr='';calcNew=true;return;
+  }
+  if(v==='.'){if(calcNew){valEl.textContent='0.';calcNew=false;return;}if(!cur.includes('.'))valEl.textContent=cur+'.';return;}
+  if(calcNew){valEl.textContent=v;calcNew=false;}else{valEl.textContent=cur==='0'?v:cur+v;}
+}
+function calcMarge(){
+  const c=+document.getElementById('mg-cout').value||0,p=+document.getElementById('mg-prix').value||0;
+  const mg=p-c;const pct=c>0?Math.round((mg/c)*100):0;
+  const el=document.getElementById('mg-res');if(el)el.value=mg>0?'+'+fm(mg)+' ('+pct+'%)':fm(mg);
+}
+
+// ── CONFIG ──
+function rConfig(){
+  const el=document.getElementById('config-body');if(!el)return;
+  const installed = isInstalled();
+  el.innerHTML=`
+    <div style="padding:16px">
+      ${!installed ? `
+      <div onclick="openInstallPrompt()" style="background:linear-gradient(135deg,#D4880A,#F5A623);border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:14px;cursor:pointer;box-shadow:0 8px 24px rgba(212,136,10,.35)">
+        <div style="width:52px;height:52px;background:rgba(255,255,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:28px">📲</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:800;color:#fff">Installer l'application</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:3px">Ajouter à l'écran d'accueil</div>
+        </div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>` : `
+      <div style="background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div style="font-size:28px">✅</div>
+        <div><div style="font-size:14px;font-weight:700;color:var(--green)">Application installée</div><div style="font-size:11px;color:var(--text3)">Synergy Horeca est sur votre écran d'accueil</div></div>
+      </div>`}
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-hd"><span class="card-t">📱 Contacts Business</span></div>
+        <div class="card-bd">
+          <div class="field"><label>WhatsApp Business</label><input value="${CF.wa||''}" onchange="CF.wa=this.value;SA()"></div>
+          <div class="field" style="margin-bottom:0"><label>Facebook Page</label><input value="${CF.fb||''}" placeholder="URL page Facebook" onchange="CF.fb=this.value;SA()"></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-hd"><span class="card-t">💾 Données</span></div>
+        <div class="card-bd" style="display:flex;flex-direction:column;gap:9px">
+          <button class="btn btn-ghost btn-full" onclick="exportData()">📤 Exporter les données</button>
+          <button class="btn btn-ghost btn-full" onclick="document.getElementById('import-file').click()">📥 Importer des données</button>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+        </div>
+      </div>
+      <div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">
+        Synergy Horeca V3 · PWA · Données locales sécurisées
+      </div>
+    </div>`;
+}
+function exportData(){
+  const d={SD,VD,CL,CF,notes,contacts,docsData};
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='synergy-backup-'+td()+'.json';a.click();
+  toast('Export réussi ✓','g');
+}
+function importData(inp){
+  const fr=new FileReader();fr.onload=e=>{
+    try{const d=JSON.parse(e.target.result);if(d.SD)SD=d.SD;if(d.VD)VD=d.VD;if(d.notes)notes=d.notes;if(d.contacts)contacts=d.contacts;if(d.docsData)docsData=d.docsData;if(d.CF)CF=d.CF;SA();toast('Import réussi ✓','g');}
+    catch{toast('Fichier invalide','r');}
+  };fr.readAsText(inp.files[0]);
+}
+
+// ── INIT ──
+function initApp(){
+  updateClock();updatePrayer();
+  buildHomeGrids();buildHomeKPIs();
+  document.getElementById('home-scr').style.display='block';
+  buildMoreGrid();
+}
+
+// ═══════════════════════════════════════════════════
+// PWA — INSTALLATION AU PREMIER LANCEMENT
+// ═══════════════════════════════════════════════════
+
+let deferredPrompt = null;
+
+// Détection plateforme
+const UA = navigator.userAgent;
+const isIOS     = /iphone|ipad|ipod/i.test(UA);
+const isAndroid = /android/i.test(UA);
+const isSafari  = /safari/i.test(UA) && !/chrome|crios|fxios/i.test(UA);
+const isChrome  = /chrome|crios/i.test(UA);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                  || window.navigator.standalone === true;
+
+// ── Service Worker ──────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const base = location.pathname.replace(/\/[^/]*$/, '/');
+    navigator.serviceWorker.register(base + 'sw.js', { scope: base })
+      .then(r => console.log('[SW] ✓', r.scope))
+      .catch(e => console.warn('[SW] ✗', e));
+  });
+}
+
+// ── Capture du prompt Android/Chrome ───────────
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  console.log('[PWA] beforeinstallprompt capturé ✓');
+  // Si l'écran d'installation est visible, montrer le bouton
+  if (document.getElementById('install-screen').style.display !== 'none') {
+    showInstallUI();
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('[PWA] App installée ✓');
+  deferredPrompt = null;
+  document.getElementById('install-screen').style.display = 'none';
+  lancerSplash();
+});
+
+// ── Logique d'affichage au démarrage ───────────
+function demarrerApp() {
+  if (isStandalone) {
+    // Déjà installée → lancer directement
+    lancerSplash();
+    return;
+  }
+
+  // Pas encore installée → afficher l'écran d'installation
+  const scr = document.getElementById('install-screen');
+  scr.style.display = 'flex';
+
+  if (isIOS && isSafari) {
+    // iPhone Safari → guide manuel
+    document.getElementById('guide-ios').style.display = 'block';
+  } else if (isIOS && !isSafari) {
+    // iPhone Chrome/Firefox → dire d'ouvrir Safari
+    document.getElementById('guide-ios-chrome').style.display = 'block';
+  } else if (deferredPrompt) {
+    // Android/Chrome → bouton natif disponible
+    document.getElementById('btn-install-android').style.display = 'block';
+  } else {
+    // Android mais prompt pas encore prêt → attendre 2s
+    setTimeout(() => {
+      if (deferredPrompt) {
+        document.getElementById('btn-install-android').style.display = 'block';
+      } else {
+        // Pas de prompt dispo (déjà installé ou navigateur non supporté)
+        skipInstall();
+      }
+    }, 2000);
+  }
+}
+
+function showInstallUI() {
+  if (deferredPrompt && !isIOS) {
+    document.getElementById('btn-install-android').style.display = 'block';
+  }
+}
+
+// ── Actions boutons ─────────────────────────────
+async function doInstall() {
+  if (!deferredPrompt) { showIOSFallback(); return; }
+  try {
+    await deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log('[PWA] Choix:', outcome);
+    if (outcome === 'accepted') {
+      // appinstalled event lancera lancerSplash()
+      document.getElementById('btn-install-android').innerHTML =
+        '<span style="font-size:18px">⏳</span> Installation en cours…';
+    } else {
+      skipInstall();
+    }
+  } catch(e) {
+    console.warn('[PWA] prompt error:', e);
+    skipInstall();
+  }
+  deferredPrompt = null;
+}
+
+function skipInstall() {
+  document.getElementById('install-screen').style.display = 'none';
+  lancerSplash();
+}
+
+function showIOSFallback() {
+  document.getElementById('guide-ios').style.display = 'block';
+  document.getElementById('btn-install-android').style.display = 'none';
+}
+
+// ── Lancer le splash puis l'app ─────────────────
+function lancerSplash() {
+  document.getElementById('splash').style.display = 'flex';
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    s.classList.add('out');
+    setTimeout(() => {
+      s.style.display = 'none';
+      const m = document.getElementById('main');
+      m.style.display = 'block';
+      m.classList.add('fadein');
+      initApp();
+      setInterval(updateClock, 10000);
+      setInterval(updatePrayer, 60000);
+    }, 800);
+  }, 5200);
+}
+
+// ── Fonctions install dans Config ───────────────
+function openInstallPrompt() {
+  if (isStandalone) {
+    toast('✅ App déjà installée !', 'g'); return;
+  }
+  if (deferredPrompt) { doInstall(); return; }
+  if (isIOS && isSafari) {
+    document.getElementById('install-screen').style.display = 'flex';
+    document.getElementById('guide-ios').style.display = 'block';
+  } else if (isIOS) {
+    document.getElementById('install-screen').style.display = 'flex';
+    document.getElementById('guide-ios-chrome').style.display = 'block';
+  } else {
+    toast('Utilisez le menu du navigateur → "Installer"', '');
+  }
+}
+
+function isInstalled() { return isStandalone; }
+
+// ── DÉMARRAGE ───────────────────────────────────
+// Masquer le splash au départ
+document.getElementById('splash').style.display = 'none';
+// Lancer la logique d'installation
+demarrerApp();
+
+</script>
+</body>
+</html>
